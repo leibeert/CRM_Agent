@@ -1,0 +1,126 @@
+body {
+    font-family: sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #252526;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.logo {
+    /* Add styles for logo if you have one */
+    height: 50px; /* Example height */
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    background-color: #3b3b3b;
+    color: #ffffff;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.input-group textarea::placeholder {
+    color: #aaaaaa;
+}
+
+.btn {
+    background-color: #5a5aff;
+    color: #ffffff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #7a7aff;
+}
+
+#results {
+    margin-top: 30px;
+    text-align: left;
+    border-top: 1px solid #444444;
+    padding-top: 20px;
+}
+
+#results h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.candidate-result {
+    background-color: #3b3b3b;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #444444;
+}
+
+.candidate-result h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.candidate-result p {
+    margin-bottom: 5px;
+    color: #cccccc;
+}
+
+.candidate-result h4 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #cccccc;
+}
+
+.candidate-result ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.candidate-result li {
+    margin-bottom: 3px;
+    color: #aaaaaa;
+} 

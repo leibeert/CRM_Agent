@@ -1,0 +1,48 @@
+id,client_id,contact_id,created_by,created_at,updated_at,email,department,title,phone_number
+1,37,6,,2024-09-20 11:00:57,2024-11-28 12:13:19,philippe.mahieu@oaklandgrp.com,IT,Head of Operations & Delivery ,+41 76 639 21 76
+2,12,7,,2024-09-20 11:03:44,2024-11-28 12:13:19,yassar@argoteamgroup.com,IT,CEO,+33674458208
+3,12,8,,2024-09-20 11:14:37,2024-11-28 12:13:19,h.ouggadi@argoteamgroup.com,IT,Consultant Java,0699999999
+4,56,9,,2024-09-25 11:05:04,2024-11-28 12:13:19,teresa.smith@genhive.com,Management,manager,066666666
+5,58,10,,2024-09-26 06:15:12,2024-11-28 12:13:19,default@randstad.fr,IT,Default,phone
+6,12,11,,2024-09-26 11:23:03,2024-11-28 12:13:19,seller@s.com,it,title1,+212577874777
+7,13,12,,2024-09-26 11:23:49,2024-11-28 12:13:19,buyer@b.com,IT,tt,+21264747474
+8,61,13,,2024-09-27 17:34:22,2024-11-28 12:13:19,default email for Pau,,Head of Equities Technology,default phone number for Paul
+9,61,14,,2024-09-27 17:36:32,2024-11-28 12:13:19,default email for Ruth,,default title for Ruth,default phone number for Ruth
+10,63,15,,2024-09-27 17:39:46,2024-11-28 12:13:19,default email for Vijinder,,RTB Technology,default phone number for Vijinder
+11,64,16,,2024-09-27 17:40:58,2024-11-28 12:13:19,default email for David,,Managing Director,default phone number for David
+12,65,17,,2024-09-27 17:42:24,2024-11-28 12:13:19,default email for Jen,,Dev10 Head of Sales,default phone number for Jen
+13,66,18,,2024-09-27 17:43:32,2024-11-28 12:13:19,default email for Peter,,London MD,default phone number for Peter
+14,67,19,,2024-09-27 17:45:09,2024-11-28 12:13:19,default email for Koen,,Head of Client Engagement,default phone number for Koen
+15,68,20,,2024-09-27 17:46:37,2024-11-28 12:13:19,default email for Alistair,,CTO,default phone number for Alistair
+16,69,21,,2024-09-27 17:48:36,2024-11-28 12:13:19,default email for Celine,,Director - Partnerships,default phone number for Celine
+17,35,22,,2024-09-27 17:51:27,2024-11-28 12:13:19,default email for Avin,,US Client Director,default phone number for Avin
+18,70,23,,2024-09-27 17:53:01,2024-11-28 12:13:19,default email for Via Antoine,,default title for Via Antoine,default phone number for Via Antoine
+19,72,24,,2024-09-27 17:55:55,2024-11-28 12:13:19,default email for Chris,,CEO,default phone number for Chris
+20,73,25,,2024-09-27 17:56:56,2024-11-28 12:13:19,default email for James,,CEO,default phone number for James
+21,74,26,,2024-09-27 17:58:52,2024-11-28 12:13:19,default email for Benoit,,CEO,default phone number for Benoit
+22,75,27,,2024-09-27 18:02:13,2024-11-28 12:13:19,default email for James Stokes,,Change & Trnsofrmation Director,default phone number for James Stokes
+23,56,28,,2024-09-28 16:52:44,2024-11-28 12:13:19,anthony.ginn@genhive.com,,Head of academy,default
+24,105,29,,2024-09-28 17:07:14,2024-11-28 12:13:19,antoine.tahon@genhive.com,,Head of Operations,default-num
+25,56,30,,2024-09-29 12:26:06,2024-11-28 12:13:19,default email for JD,,CEO,default phone number for JD
+26,76,31,,2024-09-29 12:39:49,2024-11-28 12:13:19,default email for Paul Tipppins,,Programme Manager,default phone number for Paul Tipppins
+27,77,32,,2024-09-29 21:28:27,2024-11-28 12:13:19,default email for  Andrea Winston,default department for Andrea Winston,Head of Workforce Planning,default phone number for Andrea Winston
+28,78,33,,2024-09-29 21:29:33,2024-11-28 12:13:19,default email for Neal Beckett,default department for Neal Beckett,Programme Director,default phone number for Neal Beckett
+29,79,34,,2024-09-29 21:30:42,2024-11-28 12:13:19,default email for Stuart Breyer,default department for Stuart Breyer,CEO,default phone number for Stuart Breyer
+30,80,35,,2024-09-29 21:31:41,2024-11-28 12:13:19,default email for Mohammed ElKhannoussi,default department for Mohammed ElKhannoussi,Director / Product Owner,default phone number for Mohammed ElKhannoussi
+31,85,36,,2024-09-29 21:34:42,2024-11-28 12:13:19,default email for Paula Karam,default department for Paula Karam,Head of global markets,default phone number for Paula Karam
+32,86,37,,2024-09-29 21:36:03,2024-11-28 12:13:19,default email for Bruno Cebe,default department for Bruno Cebe,Head of pricing service,default phone number for Bruno Cebe
+33,87,38,,2024-09-29 21:41:55,2024-11-28 12:13:19,default email for Manoj Krishnan,default department for Manoj Krishnan,default title for Manoj Krishnan,default phone number for Manoj Krishnan
+34,88,39,,2024-09-29 21:42:52,2024-11-28 12:13:19,default email for Nitin Jain,default department for Nitin Jain,SI Lead/Manager,default phone number for Nitin Jain
+35,105,40,,2024-09-30 09:07:33,2024-11-28 12:13:19,louis.young@genhive.com,IT,CEO NORD,Louis Phone
+36,100,41,,2024-09-30 09:09:42,2024-11-28 12:13:19,buyer@nordea.com,IT,Nordea Buyer,Nordea Buyer
+37,105,42,,2024-09-30 09:23:42,2024-11-28 12:13:19,rory.manning@genhive.com,IT,Nord Head of Sales,rory phone
+38,106,43,,2024-09-30 09:24:45,2024-11-28 12:13:19,BankIrland  Mail,IT,BankIrland Buyer,BankIrlandphone
+39,107,44,,2024-09-30 09:28:35,2024-11-28 12:13:19,Comerzbank Buyer mail,IT,Comerzbank buyer,Comerzbank buyer phone
+40,55,45,,2024-11-14 20:01:06,2024-11-28 12:13:19,christophe.leveque@bpce.fr,information technology (it),directeur des systèmes d’information,+3301.58.40.31.23
+41,36,46,,2024-11-14 20:06:33,2024-11-28 12:13:19,,development,chief technology officer,
+48,56,54,,2024-12-21 20:45:14,2024-12-21 20:45:14,sebastien@genhive.com,Sales & Strategic Alliances,Managing Directo,default phone number for Sebastien Avot
+49,86,55,,2024-12-21 20:52:32,2024-12-21 20:52:32,email for  Maouane Dhiab,Murex Front Office & IT Management,Head of Murex,phone number for Maouane Dhiab
+50,89,56,,2024-12-21 22:41:57,2024-12-21 22:41:57,capco buyer email,capco buyer department,capco buyer title,capco buyer phone number
+51,207,58,,2024-12-21 22:52:42,2024-12-21 22:52:42,cdc buyer email,cdc buyer department,cdc buyer title,cdc buyer phone number
+52,97,59,,2024-12-21 23:05:41,2024-12-21 23:05:41,HSBC buyer email,HSBC buyer department,HSBC buyer title,HSBC buyer phone number
+53,210,60,,2025-01-22 10:00:54,2025-01-22 10:00:54,benoit.sanz@cacib.com,IT,Head of SandBox Project Team,+33661390300

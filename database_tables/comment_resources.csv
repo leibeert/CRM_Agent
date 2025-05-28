@@ -1,0 +1,4 @@
+id,comment,created_at,updated_at,created_by,resource_id,availability,salary_currency,current_salary_amount,current_salary_unit,current_contract_type,current_onsite_policy,current_location,expected_salary_amount,expected_salary_unit,expected_contract_type,expected_onsite_policy,expected_location,next_meeting
+5,Information about Ahmed.,2025-01-21 17:03:56,2025-01-21 17:03:56,24,47,2025-02-15 18:02:00,EUR,,,,,,700.0,1.0,0.0,0.0,Paris,
+6,test comment  ,2025-03-06 13:43:04,2025-03-06 13:43:04,184,10,2025-03-07 13:42:00,USD,23456.0,0.0,0.0,1.0,AZA,1234.0,1.0,0.0,2.0,zz,
+7,dsqdsdf,2025-03-07 10:33:27,2025-03-07 10:33:27,184,10,,,,,,,,,,,,,2025-03-21

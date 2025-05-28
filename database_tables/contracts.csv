@@ -1,0 +1,4 @@
+id,description,type,payment_method,currency,signed_at,start_date,end_date,contract_name,contract_path,created_by,created_at,updated_at,salary_amount,salary_unit,deleted_at
+4,This contract is between TechAgency and argoteam,0,3,EUR,2024-05-31 23:00:00,2024-09-14 23:00:00,,,,,2024-09-29 20:51:14,2024-12-25 11:42:36,240.0,1,
+5,Aya's ARGOTEAM Contract,0,3,MAD,2024-09-30 23:00:00,2024-09-30 23:00:00,,,,,2024-09-29 21:40:33,2024-12-26 11:27:14,6000.0,0,
+6,Contract between ARGOTEAM and GENHIVE for Aya's services,3,3,EUR,2024-04-16 23:00:00,2024-04-16 23:00:00,,,,,2024-09-29 21:49:56,2024-12-26 11:27:48,100.0,1,

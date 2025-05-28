@@ -1,0 +1,325 @@
+id,name,description,activity_name,email,phone_number,is_verified,created_by,created_at,updated_at,counterparty_id
+12,ARGOTEAM,"Argoteam is a consultancy company offering services in strategy, finance, marketing, it, and human resources.",consulting,info@argoteamgroup.com,+21254879874,0,,2024-09-11 10:15:45,2025-01-22 07:34:19,25
+13,CELLVICES,cellvices provides pre-approved manufacturing facilities rental service in the cell and gene therapy field.,healthcare,,,0,,2024-09-11 10:15:45,2025-01-22 07:34:30,26
+14,cityfront – synechron,cityfront – synechron is a consulting firm specializing in financial and technology solutions.,consulting,,,0,,2024-09-11 10:15:45,2024-09-11 10:15:45,27
+15,vanilla - cognitis – gfi informatique,"vanilla - cognitis – gfi informatique is a consulting firm specializing in financial, technology, and information services.",consulting,,,0,,2024-09-11 10:15:45,2024-09-11 10:15:45,28
+16,capgemini telecom & media,capgemini telecom & media is a consulting firm specializing in telecommunications and media sectors.,telecommunications,,,0,,2024-09-11 10:15:45,2024-09-11 10:15:45,29
+17,3wdev sarl,3wdev sarl is a software development company specializing in web development and it solutions.,information technology (it),,,0,,2024-09-11 10:15:45,2024-09-11 10:15:45,30
+18,bank of jordan,bank of jordan is a retail bank offering banking services to individuals and businesses.,banking,,,0,,2024-09-11 10:15:45,2024-09-11 10:15:45,31
+19,oncf-cmrk,office national des chemins de fer (oncf) - morocco's national railway operator,transportation,,,0,,2024-09-11 10:16:27,2024-09-11 10:16:27,35
+20,master bec,commercial and retail business,commerce,,,0,,2024-09-11 10:16:27,2024-09-11 10:16:27,36
+21,leyacom solutions,leyacom solutions est une entreprise spécialisée dans le développement de solutions web.,information technology (it),,,0,,2024-09-11 10:16:56,2024-09-11 10:16:56,37
+22,armada systems,armada systems est une entreprise spécialisée dans le développement de solutions web.,information technology (it),,,0,,2024-09-11 10:16:56,2024-09-11 10:16:56,38
+23,école supérieure de linformatique et de l'informa,école spécialisée dans la formation d'ingénieurs en informatique.,education,,,0,,2024-09-11 10:16:57,2024-09-11 10:16:57,39
+24,freelance,autonome et auto-géré.,information technology (it),,,0,,2024-09-11 10:16:57,2024-09-11 10:16:57,40
+25,école supérieure de l'informatique et de l'informa,école spécialisée dans la formation d'ingénieurs en informatique.,education,,,0,,2024-09-11 10:16:57,2024-09-11 10:16:57,41
+26,prefecture of temera,the prefecture of temera is a local government body responsible for administrative affairs.,government administration,,,0,,2024-09-11 10:17:02,2024-09-11 10:17:02,42
+27,avaliance,avaliance is a digital innovation company.,information technology (it),,,0,,2024-09-11 10:19:28,2024-09-11 10:19:28,46
+28,berger-levrault,berger-levrault is a provider of software solutions for public and private sector organizations.,information technology (it),,,0,,2024-09-11 10:19:28,2024-09-11 10:19:28,47
+29,sofrecom services maroc,sofrecom is a consulting and engineering company specializing in telecommunications.,telecommunications,,,0,,2024-09-11 10:19:28,2024-09-11 10:19:28,48
+30,vinci energies,vinci energies is a company specializing in energy and information technology services.,information technology (it),,,0,,2024-09-11 10:19:44,2024-09-11 10:19:44,49
+31,6solution,6solution is a company specializing in software solutions and development services.,information technology (it),,,0,,2024-09-11 10:19:44,2024-09-11 10:19:44,50
+32,hopital hassan 2,hôpital hassan 2 is a healthcare institution.,healthcare,,,0,,2024-09-11 10:19:44,2024-09-11 10:19:44,51
+33,sqli,"a digital services company specialized in the design, implementation, and deployment of omnichannel solutions.",information technology (it),,,0,,2024-09-11 10:19:46,2024-09-11 10:19:46,52
+34,sofrecom,consulting and engineering firm specializing in telecommunications.,telecommunications,,,0,,2024-09-11 10:19:46,2024-09-11 10:19:46,53
+35,capgemini,"multinational corporation providing consulting, technology, and professional services.",information technology (it),,,0,,2024-09-11 10:19:46,2024-09-11 10:19:46,54
+36,smarter contracts,"smarter contracts is dedicated to building secure, ethical, decentralized, and human-centric technology, providing society with control over their data permissions and trust in data-sharing experiences.",information technology (it),,,0,,2024-09-11 10:19:51,2024-09-11 10:19:51,55
+37,Oakland,Oakland is a reputed company specializing in data.,information technology (it),,,0,,2024-09-11 10:19:52,2024-09-26 06:04:40,56
+38,dxc technology,dxc technology est une multinationale d'informatique.,information technology (it),,,0,,2024-09-19 17:28:30,2024-09-19 17:28:30,59
+39,arb ing,arb ing est une société spécialisée dans l'ingénierie informatique.,information technology (it),,,0,,2024-09-19 17:28:30,2024-09-19 17:28:30,60
+40,cabinet-cs,cabinet-cs est une firme de conseil en gestion et en technologie.,finance,,,0,,2024-09-19 17:28:30,2024-09-19 17:28:30,61
+41,elite info-elect,elite info-elect est une entreprise de solutions informatiques.,information technology (it),,,0,,2024-09-19 17:28:30,2024-09-19 17:28:30,62
+42,difa – sgma,a company involved in the development of online banking solutions.,financial services,,,0,,2024-09-19 17:28:35,2024-09-19 17:28:35,63
+43,jobillico,a job search platform connecting employers with potential candidates.,recruitment,,,0,,2024-09-19 17:28:35,2024-09-19 17:28:35,64
+44,mytower,a company providing logistics and transportation management software solutions.,logistics,,,0,,2024-09-19 17:28:35,2024-09-19 17:28:35,65
+45,sofrecom business services,a consultancy firm providing technology and services for the telecom industry.,telecommunications,,,0,,2024-09-19 17:28:35,2024-09-19 17:28:35,66
+46,sqli digital experience,a digital services company specializing in the design and development of digital solutions.,information technology (it),,,0,,2024-09-19 17:28:35,2024-09-19 17:28:35,67
+47,dibsy.one,dibsy aide les entreprises du qatar à accepter les paiements en ligne.,finance,,,0,,2024-09-19 17:38:41,2024-09-19 17:38:41,70
+48,wana corporate,inwi est un opérateur digital global couvrant les services des télécommunications au maroc.,telecommunications,,,0,,2024-09-19 17:38:41,2024-09-19 17:38:41,71
+49,lighthouse technology,"light house technology est une agence digitale & marketing opérant au maroc, france et canada.",information technology (it),,,0,,2024-09-19 17:38:41,2024-09-19 17:38:41,72
+50,sofrecom - orange,sofrecom est une entreprise de conseil et d'ingénierie spécialisée dans les télécommunications,telecommunications,,,0,,2024-09-19 17:40:37,2024-09-19 17:40:37,73
+51,atos - crédit du maroc,atos est un leader mondial dans la transformation digitale avec une forte présence dans les services financiers.,information technology (it),,,0,,2024-09-19 17:40:37,2024-09-19 17:40:37,74
+52,dell technologies,dell technologies est une société multinationale spécialisée dans les solutions technologiques.,information technology (it),,,0,,2024-09-19 17:40:37,2024-09-19 17:40:37,75
+53,majorel - orange,majorel est une entreprise mondiale de centre de contact.,telecommunications,,,0,,2024-09-19 17:40:37,2024-09-19 17:40:37,76
+54,résolution call - free,résolution call est spécialisée dans le support technique et les services d'assistance.,back office,,,0,,2024-09-19 17:40:37,2024-09-19 17:40:37,77
+55,BPCE Services Financiers,bpce services financiers is a financial services provider focusing on back-office operations and delivery payment.,finance,christophe.leveque@bpce.fr,+33 (0)1.58.40.31.23,0,,2024-09-23 13:53:14,2025-01-22 07:35:06,81
+56,Genhive," GenHive is a consulting firm specialising in the Financial Services industry. We place data, artificial intelligence, and people performance at the core of our business transformation services. Our mission is to transform organisations by empowering their most valuable asset",Consulting,info@genhive.com,066666666,1,,2024-09-25 11:00:18,2024-09-25 11:00:18,82
+57,TechAgency,TechAgency is part of OAKland group. ,IT,james.nauffray@oaklandgrp.com,+41795930423,1,,2024-09-26 06:09:16,2024-09-26 06:09:16,84
+58,Randstad,Randstad is a recruitment company that operates worldwide. They specializes in Medical stafing.,Recruitment,email@randstad.fr,phone,0,,2024-09-26 06:13:30,2024-09-26 06:13:30,85
+59,test client,testing,IT,test@test.com,07777777777,0,,2024-09-26 10:42:35,2024-09-26 10:42:35,87
+60,test client y,eza,IT,test@ytest.com,07777777778,0,,2024-09-26 11:25:11,2024-09-26 11:25:11,90
+61,Barclays,default description for Barclays,default activity for Barclays,default email for Barclays,default phone number for Barclays,0,,2024-09-27 09:23:19,2024-09-27 16:25:38,91
+62,Gft,default description for GFT,default activity for GFT,default email for GFT,default phone number for GFT,0,,2024-09-27 16:27:55,2024-09-27 16:27:55,92
+63,Natixis london,default description for Natixis London,default activity for Natixis London,default email for Natixis London,default phone number for Natixis London,0,,2024-09-27 16:28:37,2024-09-27 16:28:37,93
+64,Sparta global,default description for Sparta Global,default activity for Sparta Global,default email for Sparta Global,default phone number for Sparta Global,0,,2024-09-27 16:29:15,2024-09-27 16:29:15,94
+65,Jpm,default description for JPM,default activity for JPM,default email for JPM,default phone number for JPM,0,,2024-09-27 16:30:12,2024-09-27 16:30:12,95
+66,Synechron,default description for Synechron,default activity for Synechron,default email for Synechron,default phone number for Synechron,0,,2024-09-27 16:31:01,2024-09-27 16:31:01,96
+67,Bnpp,default description for BNPP,default activity for BNPP,default email for BNPP,default phone number for BNPP,0,,2024-09-27 16:31:55,2024-09-27 16:31:55,97
+68,Lme,default description for LME,default activity for LME,default email for LME,default phone number for LME,0,,2024-09-27 16:32:36,2024-09-27 16:32:36,98
+69,Sap,default description for SAP,default activity for SAP,default email for SAP,default phone number for SAP,0,,2024-09-27 16:33:12,2024-09-27 16:33:12,99
+70,Marex,default description for Marex,default activity for Marex,default email for Marex,default phone number for Marex,0,,2024-09-27 16:34:57,2024-09-27 16:34:57,100
+71,Finastra,default description for Finastra,default activity for Finastra,default email for Finastra,default phone number for Finastra,0,,2024-09-27 16:35:40,2024-09-27 16:35:40,101
+72,Kimura,default description for Kimura,default activity for Kimura,default email for Kimura,default phone number for Kimura,0,,2024-09-27 16:36:37,2024-09-27 16:36:37,102
+73,Kim performance,default description for Kim performance,default description for Kim performance,default email for Kim performance,default phone number for Kim performance,0,,2024-09-27 16:37:34,2024-09-27 16:37:34,103
+74,Galinea,default description for Galinea,default activity for Galinea,default email for Galinea,default phone number for Galinea,0,,2024-09-27 16:38:18,2024-09-27 16:38:18,104
+75,Exellon,default description for Exellon,default activity for Exellon,default email for Exellon,default phone number for Exellon,0,,2024-09-27 16:39:03,2024-09-27 16:39:03,105
+76,Amius (london),default description for Amius (London),default activity for Amius (London),default email for Amius (London),default phone number for Amius (London),0,,2024-09-27 16:39:50,2024-09-27 16:39:50,106
+77,Fujistu,default description for Fujistu,default activity for Fujistu,default email for Fujistu,default phone number for Fujistu,0,,2024-09-27 16:41:32,2024-09-27 16:41:49,107
+78,Close bros,default description for Close Bros,default activity for Close Bros,default email for Close Bros,default phone number for Close Bros,0,,2024-09-27 16:43:00,2024-09-27 16:43:00,108
+79,Mallow street,default description for Mallow Street,default activity for Mallow Street,default email for Mallow Street,default phone number for Mallow Street,0,,2024-09-27 16:43:52,2024-09-27 16:43:52,109
+80,Ask your omics,default description for Ask Your Omics,default activity for Ask Your Omics,default email for Ask Your Omics,default phone number for Ask Your Omics,0,,2024-09-27 16:44:44,2024-09-27 16:44:44,110
+81,Data pathology,default description for Data Pathology,default activity for Data Pathology,default email for Data Pathology,default phone number for Data Pathology,0,,2024-09-27 16:45:22,2024-09-27 16:45:22,111
+82,Simcorp,default description for Simcorp,default activity for Simcorp,default email for Simcorp,default phone number for Simcorp,0,,2024-09-27 16:46:04,2024-09-27 16:46:04,112
+83,Telco telecom,default description for Telco telecom,default activity for Telco telecom,default email for Telco telecom,default phone number for Telco telecom,0,,2024-09-27 16:46:56,2024-09-27 16:46:56,113
+84,Ranstaad,default description for Ranstaad,default activity for Ranstaad,default email for Ranstaad,default phone number for Ranstaad,0,,2024-09-27 16:47:40,2024-09-27 16:47:40,114
+85,Fab,default description for FAB,default activity for FAB,default email for FAB,default phone number for FAB,0,,2024-09-27 16:48:28,2024-09-27 16:48:28,115
+86,Natixis,"Natixis Investment Banking provides comprehensive financial solutions to corporations, financial institutions, sovereign entities, family offices, and financial sponsors. Specializing in financing, asset acquisitions and divestitures, capital structure management, and strategic development, Natixis supports clients in both public and private markets. The firm offers expertise in debt capital markets, acquisition and strategic finance, and equity capital markets, including innovative green and sustainable financing options.",Investment banking and financial services.,default email for Natixis,default phone number for Natixis,0,,2024-09-27 16:49:14,2024-12-22 15:13:42,116
+87,Wipro,default description for Wipro,default activity for Wipro,default email for Wipro,default phone number for Wipro,0,,2024-09-27 16:49:55,2024-09-27 16:49:55,117
+88,Infosys,default description for Infosys,default activity for Infosys,default email for Infosys,default phone number for Infosys,0,,2024-09-27 16:50:32,2024-09-27 16:50:32,118
+89,Capco,"Capco is a global technology and management consultancy, specializing in driving transformation across the financial services and energy industries.",Banking And payments,default email for Capco,+44 20 7426 1500,0,,2024-09-27 16:51:15,2024-12-21 21:09:38,119
+90,Moodys,default description for Moodys,default activity for Moodys,default email for Moodys,default phone number for Moodys,0,,2024-09-27 16:51:55,2024-09-27 16:51:55,120
+91,Quandriam,default description for Quandriam,default activity for Quandriam,default email for Quandriam,default phone number for Quandriam,0,,2024-09-27 16:53:21,2024-09-27 16:53:21,121
+92,Revolut,default description for Revolut,default activity for Revolut,default email for Revolut,default phone number for Revolut,0,,2024-09-27 16:55:01,2024-09-27 16:55:01,122
+93,Lseg,default description for LSEG,default activity for LSEG,default email for LSEG,default phone number for LSEG,0,,2024-09-27 16:55:45,2024-09-27 16:55:45,123
+94,Dai,default description for DAI,default activity for DAI,default email for DAI,default phone number for DAI,0,,2024-09-27 16:56:25,2024-09-27 16:56:25,124
+95,Abb lls,default description for ABB LLS,default activity for ABB LLS,default email for ABB LLS,default phone number for ABB LLS,0,,2024-09-27 16:57:02,2024-09-27 16:57:02,125
+96,Deutsche bank,default description for,default activity for,default email for,default phone number for,0,,2024-09-27 16:58:48,2024-09-27 16:58:48,126
+97,HSBC,"HSBC is a leading international financial institution dedicated to connecting customers to global opportunities. With expertise in banking, wealth management, and sustainable finance, HSBC supports growth and progress for individuals, businesses, and communities worldwide.","Banking, investments, wealth management, and susta",default email for HSBC,default phone number for HSBC,0,,2024-09-27 16:59:33,2025-01-22 07:32:34,127
+98,Baader bank,default description for Baader Bank,default activity for Baader Bank,default email for Baader Bank,default phone number for Baader Bank,0,,2024-09-27 17:00:15,2024-09-27 17:00:15,128
+99,Scotiabank,default description for Scotiabank,default activity for Scotiabank,default email for Scotiabank,default phone number for Scotiabank,0,,2024-09-27 17:00:58,2024-09-27 17:00:58,129
+100,Nordea,default description for Nordea,default activity for Nordea,default email for Nordea,default phone number for Nordea,0,,2024-09-27 17:01:34,2024-09-27 17:01:34,130
+101,Morgan stanley,default description for Morgan Stanley,default activity for Morgan Stanley,default email for Morgan Stanley,default phone number for Morgan Stanley,0,,2024-09-27 17:02:11,2024-09-27 17:02:11,131
+102,Smtb,default description for SMTB,default activity for SMTB,default email for SMTB,default phone number for SMTB,0,,2024-09-27 17:02:49,2024-09-27 17:02:49,132
+103,Dev10,default description for Dev10,default activity for Dev10,default email for Dev10,default phone number for Dev10,0,,2024-09-27 17:05:27,2024-09-27 17:05:27,133
+104,Techagency saudi,default description for TechAgency Saudi,default activity for TechAgency Saudi,default email for TechAgency Saudi,default phone number for TechAgency Saudi,0,,2024-09-27 17:06:05,2024-09-27 17:06:05,134
+105,Nord,default desc,IT,Nord@Default.com,default,0,,2024-09-28 17:05:38,2024-09-28 17:05:38,151
+106,Bank of irland,bankOfIrland,Bank,bankOfIrland_email,bankOfIrland_number,0,,2024-09-30 09:22:21,2024-09-30 09:22:21,166
+107,Comerzbank,Bank,Bank,Comerzbank mail,Comerzbank phone,0,,2024-09-30 09:26:41,2024-09-30 09:26:41,169
+108,Inspire talent,Inspire Talent Academy,Academy,Inspire Mail,Inspire Phone,0,,2024-09-30 09:27:35,2024-09-30 09:27:35,170
+109,ux centres,ux centres is a customer service and call center solutions provider.,telecommunications,,,0,,2024-09-30 16:53:50,2024-09-30 16:53:50,172
+110,isat rabat,isat rabat is an educational institution providing various academic courses.,education,,,0,,2024-09-30 16:53:50,2024-09-30 16:53:50,173
+111,saïd events,saïd events is an event management company.,event management,,,0,,2024-09-30 16:53:51,2024-09-30 16:53:51,174
+112,capgemini ts,"a global leader in consulting, digital transformation, technology, and engineering services.",information technology (it),,,0,,2024-10-23 09:20:20,2024-10-23 09:20:20,178
+113,carrefour,"carrefour is a multinational retail corporation headquartered in france. it operates a chain of hypermarkets, supermarkets, and convenience stores.",retail,,,0,,2024-10-23 09:20:44,2024-10-23 09:20:44,179
+114,alithya,alithya is a company providing digital transformation services.,information technology (it),,,0,,2024-10-23 09:20:44,2024-10-23 09:20:44,180
+115,cegedim,cegedim is a technology company providing solutions for healthcare and insurance organizations.,healthcare,,,0,,2024-10-23 09:20:44,2024-10-23 09:20:44,181
+116,say travel,say travel is a company that offers travel and event management solutions.,travel,,,0,,2024-10-23 09:20:44,2024-10-23 09:20:44,182
+117,advalio,advalio is a technology company that provides solutions for mobile applications and other it services.,information technology (it),,,0,,2024-10-23 09:20:44,2024-10-23 09:20:44,183
+118,teya solutions ltd,a company involved in technology and product management in the payment services sector.,information technology (it),,,0,,2024-11-08 15:01:04,2024-11-08 15:01:04,189
+119,areeba sal,a payment solutions company operating in lebanon and egypt.,finance,,,0,,2024-11-08 15:01:04,2024-11-08 15:01:04,190
+120,bank audi sal,a leading bank in lebanon.,finance,,,0,,2024-11-08 15:01:04,2024-11-08 15:01:04,191
+121,mtc touch,a telecommunication company in lebanon.,telecommunications,,,0,,2024-11-08 15:01:04,2024-11-08 15:01:04,192
+122,sys-network,sys-network is a company specializing in information technology and networking services.,information technology (it),,,0,,2024-11-08 15:01:10,2024-11-08 15:01:10,193
+123,sqli maroc,sqli is a european digital services group specializing in digital solutions.,digital services,,,0,,2024-11-08 15:01:10,2024-11-08 15:01:10,194
+124,fwc,family web company (fwc) is a startup studio offering digital consulting services.,digital consulting,,,0,,2024-11-08 15:01:10,2024-11-08 15:01:10,195
+125,crealeet,crealeet is a startup enhancing museum experiences and city visits.,tourism & cultural activities,,,0,,2024-11-08 15:01:10,2024-11-08 15:01:10,196
+126,london stock exchange group,the london stock exchange group is a global financial markets infrastructure and data business.,finance,,,0,,2024-11-08 15:01:30,2024-11-08 15:01:30,197
+127,bayes business school,"bayes business school is a part of city, university of london, offering business and finance education.",education,,,0,,2024-11-08 15:01:30,2024-11-08 15:01:30,198
+128,crédit agricole du maroc,banque au service du développement agricole et rural au maroc.,finance,,,0,,2024-11-12 10:01:43,2024-11-12 10:01:43,208
+129,it road consulting,consulting it en développement logiciel et système.,information technology (it),,,0,,2024-11-12 10:01:43,2024-11-12 10:01:43,209
+130,savoye,entreprise de service de logistique et d'optimisation d'entrepôt.,manufacturing,,,0,,2024-11-12 10:01:43,2024-11-12 10:01:43,210
+131,360 business ventures,entreprise de développement de solutions numériques.,information technology (it),,,0,,2024-11-12 10:01:43,2024-11-12 10:01:43,211
+132,albri sarl,entreprise spécialisée en développement backend et frontend.,information technology (it),,,0,,2024-11-12 10:01:43,2024-11-12 10:01:43,212
+133,trésorerie général du royaume du maroc,public entity responsible for the general treasury of morocco.,finance,,,0,,2024-11-12 10:01:53,2024-11-12 10:01:53,213
+134,université de bretagne,higher education institution in france focusing on research and development.,education,,,0,,2024-11-12 10:01:53,2024-11-12 10:01:53,214
+135,inetum software morocco,"a leading company in it services and solutions, specializing in digital services.",information technology (it),,,0,,2024-11-12 10:01:57,2024-11-12 10:01:57,215
+136,algo consulting,consulting company offering it and business solutions.,information technology (it),,,0,,2024-11-12 10:01:57,2024-11-12 10:01:57,216
+137,société des silos portuaires sosipo,société des silos portuaires sosipo is responsible for managing and administrating the sosipo terminal.,information technology (it),,,0,,2024-11-12 10:02:01,2024-11-12 10:02:01,217
+138,oracle research and development,oracle research and development focuses on implementing innovative technologies.,information technology (it),,,0,,2024-11-12 10:02:01,2024-11-12 10:02:01,218
+139,diaaland,diaaland is focused on developing innovative web applications.,information technology (it),,,0,,2024-11-12 10:02:01,2024-11-12 10:02:01,219
+140,inwi,"inwi is a major telecommunications company providing mobile, internet, and fixed-line services.",telecommunications,,,0,,2024-11-12 10:02:03,2024-11-12 10:02:03,220
+141,pca,pca is a company focusing on e-banking solutions and financial process automation.,finance,,,0,,2024-11-12 10:02:03,2024-11-12 10:02:03,221
+142,intelcia,intelcia provides it and back office services through innovative application solutions.,information technology (it),,,0,,2024-11-12 10:02:03,2024-11-12 10:02:03,222
+143,adria,adria specializes in developing it solutions for banking sectors and bill payment modules.,finance,,,0,,2024-11-12 10:02:03,2024-11-12 10:02:03,223
+144,orange business morocco,a telecommunications services company aiming to provide integrated solutions to businesses.,telecommunications,,,0,,2024-11-12 10:02:06,2024-11-12 10:02:06,224
+145,weexa-ixpath,a company specializing in digital transformation and process automation.,information technology (it),,,0,,2024-11-12 10:02:06,2024-11-12 10:02:06,225
+146,disway,a distribution company specializing in it hardware and software products.,information technology (it),,,0,,2024-11-12 10:02:06,2024-11-12 10:02:06,226
+147,slagsoa-vision,slagsoa-vision specializes in digital solutions and consulting services.,information technology (it),,,0,,2024-11-12 10:02:31,2024-11-12 10:02:31,227
+148,cgi technologies et solutions sas,cgi is among the largest it and business consulting services firms in the world.,information technology (it),,,0,,2024-11-12 10:02:31,2024-11-12 10:02:31,228
+149,société centrale de réassurance (scr) groupe c.d.g,a leading reinsurance company in the moroccan market.,finance,,,0,,2024-11-12 10:02:31,2024-11-12 10:02:31,229
+150,mavistro,a company involved in software development solutions.,information technology (it),,,0,,2024-11-12 10:02:35,2024-11-12 10:02:35,230
+151,miacorp,a technology company focusing on software development and project management.,information technology (it),,,0,,2024-11-12 10:02:35,2024-11-12 10:02:35,231
+152,wide range investment,a company providing investment strategies and system solutions.,financial services,,,0,,2024-11-12 10:02:35,2024-11-12 10:02:35,232
+153,adrénaline,a company that specializes in web and mobile application development.,information technology (it),,,0,,2024-11-12 10:02:35,2024-11-12 10:02:35,233
+154,entreprise bits,entreprise spécialisée en intégration et support de solutions it.,information technology (it),,,0,,2024-11-12 10:02:55,2024-11-12 10:02:55,234
+155,entreprise sewacard industries,entreprise spécialisée dans la conception et développement de solutions monétiques.,finance,,,0,,2024-11-12 10:02:55,2024-11-12 10:02:55,235
+156,ansd,"agence nationale de la statistique et de la démographie du sénégal, spécialisée dans la collecte de données statistiques.",information technology (it),,,0,,2024-11-12 10:02:55,2024-11-12 10:02:55,236
+167,bnp paribas,bnp paribas is a french international banking group.,finance,,,0,,2024-12-11 11:08:49,2024-12-11 11:08:49,257
+168,engie,engie is a french multinational utility company.,energy,,,0,,2024-12-11 11:08:49,2024-12-11 11:08:49,258
+169,caisse des dépôts et consignations,caisse des dépôts et consignations is a french public sector financial institution.,finance,,,0,,2024-12-11 11:08:49,2024-12-11 11:08:49,259
+171,ecole nationale des sciences appliquées de khourib,a leading educational institution offering advanced studies in applied sciences.,education,,,0,,2024-12-16 10:29:18,2024-12-16 10:29:18,267
+172,ecole supérieure de technologie d’oujda,a prominent higher education institution specializing in technology and applied sciences.,education,,,0,,2024-12-16 10:29:18,2024-12-16 10:29:18,268
+173,la banque populaire d’ahfir,a major banking institution in morocco.,finance,,,0,,2024-12-16 10:29:18,2024-12-16 10:29:18,269
+174,300digital,300digital is a company specializing in digital automation solutions.,information technology (it),,,0,,2024-12-16 10:29:29,2024-12-16 10:29:29,270
+175,um6p,um6p is a university that fosters innovation and research in various fields.,education,,,0,,2024-12-16 10:29:29,2024-12-16 10:29:29,271
+176,ame x pts,"ame x pts is a company located in nador, morocco, focusing on providing engineering solutions.",healthcare,,,0,,2024-12-16 10:29:34,2024-12-16 10:29:34,272
+177,adria b&t,"adria b&t is a company located in casablanca, morocco, specializing in ai and technology solutions.",healthcare,,,0,,2024-12-16 10:29:34,2024-12-16 10:29:34,273
+178,meriskill,meriskill is a remote tech company focusing on skills development and data analysis solutions.,information technology (it),,,0,,2024-12-16 10:29:34,2024-12-16 10:29:34,274
+179,ntt data,"ntt data is an international technology company, providing innovative and data-driven solutions.",information technology (it),,,0,,2024-12-16 10:29:34,2024-12-16 10:29:34,275
+180,ciaumed,ciaumed is a company focused on data analysis and business insights.,information technology (it),,,0,,2024-12-16 10:29:42,2024-12-16 10:29:42,276
+181,3d smart factory,3d smart factory specializes in machine learning and image processing solutions.,manufacturing,,,0,,2024-12-16 10:29:42,2024-12-16 10:29:42,277
+182,portnet s.a,portnet s.a enhances logistics and trade with advanced technological solutions.,information technology (it),,,0,,2024-12-16 10:29:42,2024-12-16 10:29:42,278
+183,consult it,consult it is a company specializing in it consulting and solutions.,information technology (it),,,0,,2024-12-16 10:29:48,2024-12-16 10:29:48,279
+184,yazaki morocco,yazaki morocco specializes in automotive wiring harness systems and associated products for the automotive industry.,manufacturing,,,0,,2024-12-16 10:29:49,2024-12-16 10:29:49,280
+185,collaborative partnership between dhbw and fssm,a collaborative research effort focused on leveraging ai and machine learning technologies.,information technology (it),,,0,,2024-12-16 10:29:49,2024-12-16 10:29:49,281
+186,soman company,video game development company known for creating engaging and innovative games.,media,,,0,,2024-12-16 10:29:49,2024-12-16 10:29:49,282
+187,big4com s.a.r.i,specializes in digital solutions and e-commerce platforms.,information technology (it),,,0,,2024-12-16 10:29:49,2024-12-16 10:29:49,283
+188,atlan space,an innovative company specializing in real-time ai applications and drone technology.,information technology (it),,,0,,2024-12-17 09:27:08,2024-12-17 09:27:08,285
+189,safetrack,a company focused on ai-driven solutions and image processing algorithms.,information technology (it),,,0,,2024-12-17 09:27:08,2024-12-17 09:27:08,286
+190,defendis,defendis is a company specializing in machine learning and nlp solutions.,information technology (it),,,0,,2024-12-17 10:36:32,2024-12-17 10:36:32,289
+191,atos - eviden,atos - eviden is a leading cybersecurity and it services company.,information technology (it),,,0,,2024-12-17 10:36:32,2024-12-17 10:36:32,290
+192,gomycode,gomycode is an educational platform focused on coding and data science.,education,,,0,,2024-12-17 10:36:32,2024-12-17 10:36:32,291
+193,ensias,ensias is a renowned engineering school in rabat.,education,,,0,,2024-12-17 10:36:32,2024-12-17 10:36:32,292
+194,ingenierix,ingenierix is a company specializing in software development.,information technology (it),,,0,,2024-12-17 10:36:32,2024-12-17 10:36:32,293
+195,simplon.co,simplon.co is a network of 'factories' offering free training courses to prepare digital professions.,recruitment,,,0,,2024-12-17 10:37:20,2024-12-17 10:37:20,294
+196,deepecho,deepecho specializes in creating technology solutions for processing medical imaging data.,healthcare,,,0,,2024-12-17 10:37:20,2024-12-17 10:37:20,295
+197,ehc,a company dedicated to enhancing mental health services through innovative technology solutions.,healthcare,,,0,,2024-12-18 09:53:10,2024-12-18 09:53:10,297
+198,fssm-ird,a research institution collaborating for innovative solutions in various fields.,information technology (it),,,0,,2024-12-18 09:53:10,2024-12-18 09:53:10,298
+199,ia movement,a leading company in artificial intelligence solutions and innovations.,information technology (it),,,0,,2024-12-18 09:53:10,2024-12-18 09:53:10,299
+200,fstg,a faculty focusing on scientific and technological studies.,education,,,0,,2024-12-18 09:53:10,2024-12-18 09:53:10,300
+201,la caisse des dépôts,a french public sector financial institution.,finance,,,0,,2024-12-19 16:29:47,2024-12-19 16:29:47,302
+202,axa banque,a french international insurance firm providing financial services.,finance,,,0,,2024-12-19 16:29:47,2024-12-19 16:29:47,303
+203,psa banque,financial institution associated with psa group.,finance,,,0,,2024-12-19 16:29:47,2024-12-19 16:29:47,304
+204,sgcib,société générale corporate and investment banking.,finance,,,0,,2024-12-19 16:29:47,2024-12-19 16:29:47,305
+205,BNP CIB,bnp paribas corporate and institutional banking.,finance,,,0,,2024-12-19 16:29:47,2025-01-22 07:36:49,306
+206,attijariwafa bank,"a moroccan bank, one of the largest in africa.",finance,,,0,,2024-12-19 16:29:47,2024-12-19 16:29:47,307
+207,CDC,description for CDC,activity for CDC,email for CDC,phone number for CDC,0,,2024-12-21 21:04:40,2025-01-22 07:37:15,310
+208,algoscope,algoscope est une start-up compiégnoise innovante en e-santé fondée par deux médecins et un ingénieur ayant pour ambition de faire progresser le diagnostic médical en améliorant les pratiques de la médecine de laboratoire.,e-santé,contact@algoscope.fr,email for algoscope,0,,2024-12-21 22:15:42,2024-12-21 22:18:09,311
+210,CACIB,crédit agricole corporate and investment bank is the corporate and investment banking arm of crédit agricole.,finance,,,0,,2024-12-22 15:37:09,2025-01-22 07:31:42,317
+211,nbad,"national bank of abu dhabi, now part of first abu dhabi bank, was one of the largest banks in the united arab emirates.",finance,,,0,,2024-12-22 15:37:09,2024-12-22 15:37:09,318
+212,Natexis,"natexis was a french investment bank, part of natixis group.",finance,,,0,,2024-12-22 15:37:09,2025-01-22 07:36:06,319
+213,devoteam,an it consultancy firm providing services and innovative solutions.,information technology (it),,,0,,2024-12-22 15:37:42,2024-12-22 15:37:42,321
+214,"slib, bnp paribas group",a financial group providing solutions in different financial markets across the globe.,finance,,,0,,2024-12-22 15:37:42,2024-12-22 15:37:42,322
+215,bnp paribas cib,bnp paribas corporate and institutional banking provides financing solutions and advisory services to clients globally.,finance,,,0,,2024-12-22 15:41:25,2024-12-22 15:41:25,324
+216,Natixis CIB,natixis corporate and investment banking provides tailored solutions for strategic financial needs.,finance,,,0,,2024-12-22 15:41:25,2025-01-22 07:35:29,325
+217,credit agricole cib,credit agricole corporate and investment bank serves corporate clients with banking needs.,finance,,,0,,2024-12-22 15:41:25,2024-12-22 15:41:25,326
+218,belfius,belfius is a leading banking and insurance services provider.,finance,,,0,,2024-12-22 15:50:02,2024-12-22 15:50:02,329
+219,icbc standard bank,icbc standard bank provides commodities and foreign exchange services and solutions.,finance,,,0,,2024-12-22 15:50:02,2024-12-22 15:50:02,330
+220,national bank of canada,national bank of canada offers a full range of financial services across canada.,finance,,,0,,2024-12-22 15:50:02,2024-12-22 15:50:02,331
+221,multiple clients,"prosper has worked with multiple clients including cacib paris, hsbc london, credit agricole, and more in the finance sector.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,332
+222,cacib paris,"cacib is a corporate and investment bank, offering a wide range of services in finance sector.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,333
+223,credit agricole,"credit agricole is an international full-service banking group, providing services across europe and in many other countries.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,334
+224,lch clearnet,"lch clearnet provides clearing services across a range of asset classes, with a focus on risk management.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,335
+225,nordlb,"nordlb is the state bank for the federal states of lower saxony and saxony-anhalt, offering a wide range of banking services.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,336
+226,banorte,"banorte is a leading mexican commercial bank in terms of loans and deposits, offering a wide range of banking services.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,337
+227,amundi finance,"amundi finance offers a comprehensive range of savings and investment solutions tailored to the needs of retail, private banking and institutional clients.",finance,,,0,,2024-12-22 15:50:19,2024-12-22 15:50:19,338
+228,iefp - delegation of center,an institution focused on professional training and education.,education,,,0,,2024-12-22 15:52:07,2024-12-22 15:52:07,340
+229,odysseias transportes,a company specializing in transport services and fleet management.,transport,,,0,,2024-12-22 15:52:07,2024-12-22 15:52:07,341
+230,edf salle des marchés,"edf salle des marchés provides financial and risk management services within the edf group, dealing with energy trading and market operations.",finance,,,0,,2024-12-22 15:52:53,2024-12-22 15:52:53,343
+231,hsbc global asset management,"hsbc global asset management is the investment management arm of hsbc, offering a range of investment services.",finance,,,0,,2024-12-22 15:52:53,2024-12-22 15:52:53,344
+232,caisse des depots,caisse des depots is a french public financial institution.,finance,,,0,,2024-12-22 15:55:14,2024-12-22 15:55:14,346
+233,murex paris,"murex is a leading provider of integrated trading, risk, and processing solutions.",information technology (it),,,0,,2024-12-22 15:55:14,2024-12-22 15:55:14,347
+234,murex,"murex is a leading provider of integrated trading, risk, and processing solutions.",information technology (it),,,0,,2024-12-22 15:55:14,2024-12-22 15:55:14,348
+235,cassiopae mea,cassiopae is a leading provider of loan origination solutions.,finance,,,0,,2024-12-22 15:55:14,2024-12-22 15:55:14,349
+236,santander,a multinational financial services company.,finance,,,0,,2024-12-22 15:55:56,2024-12-22 15:55:56,352
+237,caisse des dépôts et consignation,"a public financial institution in france, focused on long-term investments.",finance,,,0,,2024-12-22 15:56:15,2024-12-22 15:56:15,353
+238,art de l’ecoute,a company focused on collaborative communication facilitation.,training,,,0,,2024-12-22 15:56:15,2024-12-22 15:56:15,354
+239,credit lyonnais,"a former major french bank, now part of crédit agricole.",finance,,,0,,2024-12-22 15:56:15,2024-12-22 15:56:15,355
+240,united overseas bank (uob),a leading bank in asia which provides a range of financial services.,finance,,,0,,2024-12-22 15:57:19,2024-12-22 15:57:19,358
+241,european stability mechanism (esm),a crisis resolution mechanism for countries of the euro area.,finance,,,0,,2024-12-22 15:57:19,2024-12-22 15:57:19,359
+242,dz bank ag,a leading corporate bank in germany providing a full range of financial services.,finance,,,0,,2024-12-22 15:57:19,2024-12-22 15:57:19,360
+243,amundi asset management,"amundi asset management is one of the largest asset managers in europe, providing comprehensive investment services to clients.",finance,,,0,,2024-12-22 15:57:41,2024-12-22 15:57:41,361
+244,ssii cityfront,ssii cityfront is a consulting firm providing it solutions and services to enhance business operations.,information technology (it),,,0,,2024-12-22 15:57:41,2024-12-22 15:57:41,362
+245,ssii alcyane consulting,ssii alcyane consulting provides it consulting services focused on project management and system integration.,information technology (it),,,0,,2024-12-22 15:57:41,2024-12-22 15:57:41,363
+246,ssii talan,ssii talan provides it consulting and services focusing on digital transformation and operational performance.,information technology (it),,,0,,2024-12-22 15:57:41,2024-12-22 15:57:41,364
+247,ssii alten,ssii alten specializes in engineering and it services for industrial and service sectors.,information technology (it),,,0,,2024-12-22 15:57:42,2024-12-22 15:57:42,365
+248,murex s.a.s,"murex s.a.s is a financial technology company that provides software solutions for trading, risk management, and processing operations for financial institutions.",finance,,,0,,2024-12-22 15:58:06,2024-12-22 15:58:06,367
+249,mediobanca investment bank s.p.a.,mediobanca investment bank s.p.a. is an italian investment bank offering traditional and specialized banking services.,finance,,,0,,2024-12-22 15:58:06,2024-12-22 15:58:06,368
+250,mitsubishi ufj financial group (mufg),"one of the world's leading financial groups, providing integrated financial services including banking, trust banking, securities, credit cards, consumer finance, asset management, and leasing.",finance,,,0,,2024-12-22 15:58:46,2024-12-22 15:58:46,370
+251,hsbc global banking & market,"one of the world's largest banking and financial services organizations, serving customers worldwide across 65 countries.",finance,,,0,,2024-12-22 15:58:46,2024-12-22 15:58:46,371
+252,saudi british bank (hsbc),"a leading bank in saudi arabia providing comprehensive personal, commercial, and corporate banking services.",finance,,,0,,2024-12-22 15:59:41,2024-12-22 15:59:41,373
+253,dzbank,"one of the largest financial institutions in germany, primarily serving as a central bank for cooperative banks.",finance,,,0,,2024-12-22 15:59:41,2024-12-22 15:59:41,374
+254,nord/lb,northern germany's public-sector bank providing financial products and services to both private and business customers.,finance,,,0,,2024-12-22 15:59:41,2024-12-22 15:59:41,375
+255,edf financial system,"a part of the edf group, engaged in providing financial systems solutions and integrations.",finance,,,0,,2024-12-22 15:59:41,2024-12-22 15:59:41,376
+256,reuters financial software,"a leading provider of financial software for trading, risk management, and financial data services.",information technology (it),,,0,,2024-12-22 15:59:41,2024-12-22 15:59:41,377
+257,axa investment managers,axa investment managers is a global asset management company.,finance,,,0,,2024-12-22 16:01:08,2024-12-22 16:01:08,379
+258,société générale cib,société générale corporate and investment banking is a major player in the investment banking sector.,finance,,,0,,2024-12-22 16:01:08,2024-12-22 16:01:08,380
+259,bpifrance,bpifrance is a french public investment bank providing financial support to companies.,finance,,,0,,2024-12-22 16:03:28,2024-12-22 16:03:28,383
+260,amundi,amundi is the largest asset manager in europe by assets under management and the fifth largest in the world.,finance,,,0,,2024-12-22 16:03:28,2024-12-22 16:03:28,384
+261,edf,"edf is a leading energy provider in france, specializing in electricity generation and distribution.",energy,,,0,,2024-12-22 16:04:19,2024-12-22 16:04:19,386
+262,société générale,"société générale is a major financial services company in france, providing a wide range of financial and investment solutions.",finance,,,0,,2024-12-22 16:04:19,2024-12-22 16:04:19,387
+263,commerzbank,a major german bank with an extensive international presence.,finance,,,0,,2024-12-22 16:05:47,2024-12-22 16:05:47,389
+264,raiffeisen bank,a large austrian banking group with various financial services across europe.,finance,,,0,,2024-12-22 16:05:47,2024-12-22 16:05:47,390
+265,axa group operations,"axa group operations is the it operations and services division of axa group, a multinational insurance firm.",finance,,,0,,2024-12-22 16:06:54,2024-12-22 16:06:54,392
+266,perenity software,perenity software is a software development company.,information technology (it),,,0,,2024-12-22 16:06:54,2024-12-22 16:06:54,393
+267,devocean,devocean is a software company.,information technology (it),,,0,,2024-12-22 16:06:54,2024-12-22 16:06:54,394
+268,société générale corporate investment banking,"a leading financial services group in europe, providing a wide range of banking services.",finance,,,0,,2024-12-22 16:07:47,2024-12-22 16:07:47,396
+269,Natixis Corporate Investment Banking,"an international corporate and investment bank, serving clients in multiple industries.",finance,,,0,,2024-12-22 16:07:47,2025-01-22 07:35:53,397
+270,arval bnp paribas,arval bnp paribas specializes in full-service vehicle leasing.,finance,,,0,,2024-12-22 16:08:24,2024-12-22 16:08:24,399
+271,crédit agricole and investment bank,crédit agricole and investment bank is a large french banking group.,finance,,,0,,2024-12-22 16:08:24,2024-12-22 16:08:24,400
+272,sono-ned médical,sono-ned médical specializes in providing medical imaging equipment and solutions.,healthcare,,,0,,2024-12-22 17:34:46,2024-12-22 17:34:46,403
+273,ekzolab,ekzolab is focused on providing innovative solutions for biological and ivf processes.,healthcare,,,0,,2024-12-22 17:34:46,2024-12-22 17:34:46,404
+274,t2s,t2s is dedicated to technological advancements and management system designs.,information technology (it),,,0,,2024-12-22 17:34:46,2024-12-22 17:34:46,405
+275,promamec,promamec is involved in the maintenance and support of medical software systems.,healthcare,,,0,,2024-12-22 17:34:46,2024-12-22 17:34:46,406
+276,orange business services (obs),orange business services is a global telecommunications operator and it services company.,telecommunications,,,0,,2024-12-22 17:35:01,2024-12-22 17:35:01,407
+277,axa assurance,axa assurance is a leading global insurance firm providing a wide range of services.,finance,,,0,,2024-12-22 17:35:01,2024-12-22 17:35:01,408
+278,auto hall,auto hall is a moroccan automotive distributor providing diverse automotive services.,automotive,,,0,,2024-12-22 17:35:01,2024-12-22 17:35:01,409
+279,veosmart - rma assurance,veosmart - rma assurance is specialized in insurance services.,finance,,,0,,2024-12-22 17:35:01,2024-12-22 17:35:01,410
+281,hsbc global banking & markets (gbm),hsbc is one of the world's largest banking and financial services organizations.,finance,,,0,,2024-12-26 15:03:35,2024-12-26 15:03:35,412
+282,altiad,altiad is a consulting firm specializing in the banking sector.,consulting,,,0,,2024-12-26 15:03:35,2024-12-26 15:03:35,413
+283,orange business services,a global integrator of communications products and services for multinational corporations.,telecommunications,,,0,,2024-12-26 15:12:43,2024-12-26 15:12:43,414
+284,first derivatives,"first derivatives provides consulting services for financial technology and analytics, focusing on capital markets.",finance,null,null,0,,2025-01-08 10:12:52,2025-01-08 10:12:52,416
+285,fenixys consulting,"fenixys consulting specializes in financial services and consulting, offering solutions for accounting and system migrations.",finance,,,0,,2025-01-08 10:12:52,2025-01-08 10:12:52,417
+286,Caisse des Dépôts et Consignations (CDC),"cdc is a french public sector financial institution, focusing on public-interest investments.",finance,,,0,,2025-01-08 10:12:52,2025-01-22 07:37:34,418
+287,ikb deutsche industriebank ag,ikb deutsche industriebank ag is a german bank specializing in financing for medium-sized enterprises.,finance,,,0,,2025-01-08 10:12:53,2025-01-08 10:12:53,419
+288,bankia,bankia is a spanish financial institution offering banking and financial products to individuals and businesses.,finance,,,0,,2025-01-08 10:12:53,2025-01-08 10:12:53,420
+289,intesa san paolo,intesa san paolo is a major italian banking group providing a wide range of financial services.,finance,,,0,,2025-01-08 10:12:53,2025-01-08 10:12:53,421
+290,aegon n.v,"aegon n.v is an international financial services group providing life insurance, pensions, and asset management.",finance,,,0,,2025-01-08 10:12:53,2025-01-08 10:12:53,422
+291,rabobank,dutch multinational banking and financial services company headquartered in utrecht.,finance,,,0,,2025-01-08 15:45:18,2025-01-08 15:45:18,424
+292,the world bank,international financial institution that provides loans and grants to the governments of poorer countries for the purpose of pursuing capital projects.,finance,,,0,,2025-01-08 19:22:31,2025-01-08 19:22:31,425
+293,united overseas bank,united overseas bank is a leading bank in asia offering a wide range of financial products and services.,banking,,,0,,2025-01-09 09:52:08,2025-01-09 09:52:08,426
+294,european stability mechanism,the european stability mechanism is an international organization providing financial assistance to euro area countries.,finance,,,0,,2025-01-09 09:52:08,2025-01-09 09:52:08,427
+295,dart,a conglomerate based in the cayman islands.,finance,,,0,,2025-01-09 16:10:55,2025-01-09 16:10:55,428
+296,crédit mutuel de bretagne,a prominent regional banking institution in france offering a variety of financial services.,finance,,,0,,2025-01-09 16:22:33,2025-01-09 16:22:33,429
+297,dexia crédit local,a major financial institution specializing in public finance and project financing.,finance,,,0,,2025-01-09 16:22:34,2025-01-09 16:22:34,430
+298,lcl,a prominent retail banking institution in france providing various financial services.,finance,,,0,,2025-01-09 16:22:34,2025-01-09 16:22:34,431
+299,calyon,a major business line of crédit agricole focusing on financing and investment banking.,finance,,,0,,2025-01-09 16:22:34,2025-01-09 16:22:34,432
+300,valyans consulting,valyans consulting is a moroccan-based management consulting firm specialized in providing strategic solutions.,consulting,,,0,,2025-01-10 14:01:51,2025-01-10 14:01:51,434
+301,various companies,"a consultant with various international investment banks, hedge funds, and clearing houses.",finance,,,0,,2025-01-10 14:32:24,2025-01-10 14:32:24,435
+302,various international clients,a collection of international banks and financial institutions where the consultant worked on murex implementations and upgrades.,financial consulting,,,0,,2025-01-10 14:34:10,2025-01-10 14:34:10,436
+303,raiffeisen bank international,"raiffeisen bank international is an austrian banking group providing a range of financial services to individual, corporate, and institutional clients across central and eastern europe.",finance,,,0,,2025-01-14 17:15:43,2025-01-14 17:15:43,437
+304,rbi raiffeisen bank international,rbi raiffeisen bank international is a leading corporate and investment bank in austria and central and eastern europe.,finance,,,0,,2025-01-14 17:26:16,2025-01-14 17:26:16,438
+305,abn amro,"a major dutch bank with headquarters in amsterdam, providing a wide range of financial services.",finance,,,0,,2025-01-17 11:04:25,2025-01-17 11:04:25,440
+306,uob singapore,a major bank in singapore primarily focused on market risk and asset management.,finance,,,0,,2025-01-17 11:04:26,2025-01-17 11:04:26,441
+307,unicredit,unicredit is a pan-european commercial bank offering the best services in their class in their geographical area.,finance,,,0,,2025-01-17 11:07:24,2025-01-17 11:07:24,443
+308,natwest market,natwest market provides global market access to manage financial risks.,finance,,,0,,2025-01-17 11:07:24,2025-01-17 11:07:24,444
+309,murex (luxoft),murex (luxoft) offers software solutions for capital markets.,information technology (it),,,0,,2025-01-17 11:07:25,2025-01-17 11:07:25,445
+310,cassa depositi e prestiti,an italian national promotional institution.,finance,,,0,,2025-01-17 13:49:43,2025-01-17 13:49:43,446
+311,fab (first abu dhabi bank),the uae's largest bank offering a wide range of financial services.,finance,,,0,,2025-01-17 13:49:44,2025-01-17 13:49:44,447
+312,apg,a dutch pension investment company.,finance,,,0,,2025-01-17 13:49:44,2025-01-17 13:49:44,448
+313,km projets,km projets is engaged in technology-based project management services.,information technology (it),,,0,,2025-01-17 23:30:00,2025-01-17 23:30:00,450
+314,sgma,sgma is a company involved in providing technology and business intelligence solutions.,information technology (it),,,0,,2025-01-17 23:30:01,2025-01-17 23:30:01,451
+315,groupe banque populaire,groupe banque populaire is a leading financial institution offering diverse banking services.,finance,,,0,,2025-01-17 23:30:02,2025-01-17 23:30:02,452
+316,awb,awb provides comprehensive banking solutions and innovative payment processing services.,finance,,,0,,2025-01-17 23:30:03,2025-01-17 23:30:03,453
+317,centrale danone,centrale danone is a major producer of dairy products and food items.,manufacturing,,,0,,2025-01-17 23:30:04,2025-01-17 23:30:04,454
+318,trésorerie générale du royaume,the trésorerie générale du royaume manages public treasury operations in morocco.,finance,,,0,,2025-01-17 23:30:05,2025-01-17 23:30:05,455
+319,lafarge maroc,lafarge maroc specializes in building materials and construction solutions.,manufacturing,,,0,,2025-01-17 23:30:05,2025-01-17 23:30:05,456
+320,compagnie marocaine de cartons et papiers,this company produces carton and paper materials for various packaging needs.,manufacturing,,,0,,2025-01-17 23:30:06,2025-01-17 23:30:06,457
+321,ministère de la communication,the ministry of communication oversees the media and communication sectors in morocco.,media,,,0,,2025-01-17 23:30:06,2025-01-17 23:30:06,458
+322,unilog france,unilog france provides it and consulting services across various sectors including energy.,information technology (it),,,0,,2025-01-17 23:30:07,2025-01-17 23:30:07,459
+323,réseau de transport d'électricité-france,this company manages electricity transmission networks in france.,information technology (it),,,0,,2025-01-17 23:30:08,2025-01-17 23:30:08,460
+324,psa peugeot citroën-france,an automotive manufacturer that designs and produces vehicles and services.,manufacturing,,,0,,2025-01-17 23:30:08,2025-01-17 23:30:08,461
+325,renault-france,renault is a multinational automobile manufacturer.,manufacturing,,,0,,2025-01-17 23:30:08,2025-01-17 23:30:08,462
+326,attijariwafa bank (awb),awb is a large banking and financial services company based in morocco.,finance,,,0,,2025-01-18 14:44:36,2025-01-18 14:44:36,463
+327,decizia,"decizia is a consulting company specializing in bi, analytics, and data-driven solutions.",information technology (it),,,0,,2025-01-18 14:44:37,2025-01-18 14:44:37,464
+328,attawfiq micro finance et sgma,a company involved in finance and micro-finance solutions.,finance,,,0,,2025-01-18 14:50:34,2025-01-18 14:50:34,465
+329,unilog,consulting and it services firm.,information technology (it),,,0,,2025-01-18 14:51:22,2025-01-18 14:51:22,466
+330,murex s.a.s (luxoft),"murex s.a.s (luxoft) is a financial services company delivering a comprehensive trading, risk, and processing platform for financial markets.",finance,,,0,,2025-01-21 09:34:19,2025-01-21 09:34:19,467
+331,fab (luxoft),"fab, operating under the brand luxoft, is known for providing comprehensive solutions in financial technology and digital transformation services.",information technology (it),,,0,,2025-01-21 09:34:27,2025-01-21 09:34:27,468
+332,mmi holdings ltd.,"mmi holdings ltd. is a south african financial services group that provides long-term insurance, asset management, savings, investment, healthcare, and employee benefits.",finance,,,0,,2025-01-21 09:34:49,2025-01-21 09:34:49,469
+333,comtel solutions,"a consulting firm providing various it and business solutions, specializing in project services and outsourcing.",information technology (it),,,0,,2025-01-21 09:35:01,2025-01-21 09:35:01,470
+334,credit agricole corporate investment bank,"credit agricole corporate investment bank is a major player in the banking sector offering a wide range of financial services for corporate and investment banking purposes, particularly focusing on equity derivatives and fixed-income products.",finance,,,0,,2025-01-21 09:35:16,2025-01-21 09:35:16,471
+335,credit agricole corporate investment bank capco,"credit agricole corporate investment bank is the corporate and investment banking arm of credit agricole group, one of the largest banks in europe. it provides support to large corporates and institutional clients with a broad range of products and services in capital markets, investment banking, structured finance, commercial banking, international trade, and treasury.",finance,,,0,,2025-01-21 09:35:25,2025-01-21 09:35:25,472
+336,rbc dexia investor services,rbc dexia investor services offers a comprehensive range of services to manage institutional investments.,finance,,,0,,2025-01-21 09:35:38,2025-01-21 09:35:38,473
+337,jpmc,"jpmc, known as jpmorgan chase & co., is an american multinational investment bank and financial services holding company headquartered in new york city.",finance,,,0,,2025-01-21 09:35:47,2025-01-21 09:35:47,474
+338,polaris software lab limited,polaris software lab limited is a recognized global leader in the design and development of software solutions.,information technology (it),,,0,,2025-01-21 09:36:01,2025-01-21 09:36:01,475
+339,nationwide,"nationwide is one of the largest building societies in the world, serving its customers with a range of financial products and services.",finance,,,0,,2025-01-21 10:30:09,2025-01-21 10:30:09,476
+340,murex/lch,"murex is a leading software provider for trading, risk management, and processing solutions, while lch is a leading global clearing house.",information technology (it),,,0,,2025-01-21 10:30:42,2025-01-21 10:30:42,477
+341,murex/standard bank,"murex is a consultancy that provides software solutions for risk management, asset management, and trading.
+standard bank is a major commercial bank providing a wide range of services, specializing in credit and risk management solutions.",finance,,,0,,2025-01-21 10:30:52,2025-01-21 10:30:52,478
+342,bp,"bp is a multinational oil and gas company headquartered in london, uk, known for its exploration, production, refining, distribution, and marketing of oil and gas products.",oil and gas,,,0,,2025-01-21 10:31:02,2025-01-21 10:31:02,479
+343,bnp securities services,"bnp securities services is a subsidiary of bnp paribas providing asset servicing to investment management firms, including fund administration and custody services.",finance,,,0,,2025-01-21 10:31:27,2025-01-21 10:31:27,480
+344,excelian,excelian is a consultancy firm providing expert services on murex and financial software solutions.,information technology (it),,,0,,2025-01-21 10:31:52,2025-01-21 10:31:52,481
+345,maltem consulting,maltem consulting is a business and it consulting firm.,consulting,,,0,,2025-01-21 10:31:59,2025-01-21 10:31:59,482
+348,datawhoog sarl,datawhoog sarl est une entreprise spécialisée dans le développement de solutions technologiques pour le secteur retail.,information technology (it),,,0,,2025-02-28 17:08:59,2025-02-28 17:08:59,496
+349,direction chu ibn sina,"chu ibn sina is a public hospital group in rabat, morocco, known for its comprehensive healthcare services.",healthcare,,,0,,2025-02-28 17:09:07,2025-02-28 17:09:07,497

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="#" alt="Logo" class="logo">
+            <h2>Candidate Matcher</h2>
+        </div>
+        
+        <form id="match-form">
+            <div class="input-group">
+                <label for="job-description">Job Description:</label>
+                <textarea id="job-description" rows="6" placeholder="Enter job description here..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn">Find Candidates</button>
+        </form>
+
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('match-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const jobDescription = document.getElementById('job-description').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Matching Candidates:</h2><p>Loading...</p>';
+
+            try {
+                const response = await fetch('/find-candidates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ description: jobDescription })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultsDiv.innerHTML = '<h2>Matching Candidates:</h2>';
+                    if (data.candidates.length > 0) {
+                         const requiredSkillsHtml = `
+                            <p><strong>Required Skills:</strong> ${data.required_skills.join(', ')}</p>
+                        `;
+                         resultsDiv.innerHTML += requiredSkillsHtml;
+
+                        data.candidates.forEach(candidate => {
+                            const candidateHtml = `
+                                <div class="candidate-result">
+                                    <h3>${candidate.name}</h3>
+                                    <p>Match Score: ${(candidate.match_score * 100).toFixed(2)}%</p>
+                                    <h4>Score Breakdown:</h4>
+                                    <ul>
+                                        ${candidate.match_details.map(detail => `<li>${detail}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `;
+                            resultsDiv.innerHTML += candidateHtml;
+                        });
+                    } else {
+                        resultsDiv.innerHTML += '<p>No matching candidates found.</p>';
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<h2>Error:</h2><p>${data.error}</p>`;
+                }
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<h2>Error:</h2><p>${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html> 

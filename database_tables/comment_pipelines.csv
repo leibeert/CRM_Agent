@@ -1,0 +1,3 @@
+id,project_id,comment,created_at,updated_at,pipeline_id,description,relationship_meet,meeting_date,created_by,deleted_at
+14,,Meeting to discuss hiring a salesman for CRM sales.,2024-12-10 17:19:11,2025-01-07 17:14:02,,"The meeting held on the 10th of December, 2024, included attendees Yassar Bouchentouf, Ashraf Nashash, Hamza Koutar, and Louis Young. The primary topic was the need to hire a salesman to sell the company's CRM product. Discussions covered the sales strategy, which emphasized a targeted approach to acquiring qualified leads. It was also mentioned that GenHive company would be one of the first clients for this sales initiative.",,2024-12-10 00:00:00,,
+17,,comment,2025-01-07 17:09:50,2025-01-07 17:13:56,,comment,0.0,2025-01-07 19:09:00,,2025-01-07 17:13:56
