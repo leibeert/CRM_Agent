@@ -703,27 +703,117 @@ def send_message(current_user, conversation_id):
 
                 if is_job_description:
                     try:
-                        logger.info("Processing job description for candidate matching")
-                        # Find matching candidates
-                        matches = matcher.find_matching_candidates(content)
-                        logger.info(f"Found {len(matches)} matching candidates")
+                        logger.info("Processing job description for enhanced candidate matching")
+                        # Use enhanced matching with detailed analysis
+                        enhanced_results = matcher.find_matching_candidates_enhanced(content)
+                        logger.info(f"Enhanced matching completed. Found {enhanced_results['candidates_found']} candidates")
 
-                        # Format the response message using Markdown
-                        if matches:
-                            response_content = "**Here are the matching candidates:**\n\n"
-                            for i, candidate in enumerate(matches, 1):
-                                response_content += f"**{i}. {candidate['first_name']} {candidate['last_name']}** ({(candidate['match_score'] * 100):.1f}% match)\n"
-                                if candidate['match_details']:
-                                    response_content += "*Skills match:*\n"
-                                    for detail in candidate['match_details']:
-                                        response_content += f"* {detail}\n"
+                        # Format the enhanced response message using markdown
+                        if enhanced_results['candidates_found'] > 0:
+                            requirements = enhanced_results['requirements_extracted']
+                            candidates = enhanced_results['candidates']
+                            
+                            response_content = "🎯 **Perfect! I found some great candidates for you:**\n\n"
+                            
+                            # Show extracted requirements in a clean way
+                            if requirements.get('required_skills') or requirements.get('experience_years', 0) > 0:
+                                response_content += "**What I looked for:**\n"
+                                if requirements.get('required_skills'):
+                                    skills_text = ", ".join(requirements['required_skills'][:6])
+                                    response_content += f"• Skills: {skills_text}\n"
+                                if requirements.get('experience_years', 0) > 0:
+                                    response_content += f"• Experience: {requirements['experience_years']}+ years\n"
+                                if requirements.get('seniority_level'):
+                                    response_content += f"• Level: {requirements['seniority_level'].title()}\n"
                                 response_content += "\n"
+                            
+                            # Show matching candidates with beautiful formatting
+                            response_content += f"**🏆 Top {len(candidates)} Matching Candidates:**\n\n"
+                            
+                            for i, candidate in enumerate(candidates, 1):
+                                match_score = candidate.get('match_score', 0)
+                                
+                                # Better score handling and calculation
+                                if isinstance(match_score, (int, float)) and match_score > 0:
+                                    score_display = f"{match_score:.0f}%"
+                                    if match_score >= 80:
+                                        score_emoji = "🔥"
+                                    elif match_score >= 60:
+                                        score_emoji = "⭐"
+                                    else:
+                                        score_emoji = "✓"
+                                elif hasattr(match_score, 'real'):  # Handle Decimal type
+                                    score_val = float(match_score)
+                                    score_display = f"{score_val:.0f}%"
+                                    if score_val >= 80:
+                                        score_emoji = "🔥"
+                                    elif score_val >= 60:
+                                        score_emoji = "⭐"
+                                    else:
+                                        score_emoji = "✓"
+                                else:
+                                    # Calculate a simple score based on skill matches if SQL score failed
+                                    skills = candidate.get('skills', [])
+                                    required_skills = requirements.get('required_skills', [])
+                                    if required_skills and skills:
+                                        skill_names = [skill['name'].lower() for skill in skills]
+                                        matched_skills = sum(1 for req_skill in required_skills 
+                                                           if req_skill.lower() in skill_names)
+                                        score_val = (matched_skills / len(required_skills) * 100)
+                                        score_display = f"{score_val:.0f}%"
+                                        score_emoji = "✓"
+                                    else:
+                                        score_display = "Great match"
+                                        score_emoji = "✓"
+                                
+                                # Candidate header with score
+                                candidate_name = f"{candidate.get('first_name', 'N/A')} {candidate.get('last_name', 'N/A')}"
+                                response_content += f"**{score_emoji} {i}. {candidate_name}** - {score_display}\n"
+                                
+                                # Contact info
+                                if candidate.get('email'):
+                                    response_content += f"📧 {candidate.get('email')}\n"
+                                
+                                # Skills with beautiful formatting
+                                skills = candidate.get('skills', [])
+                                if skills:
+                                    top_skills = []
+                                    for skill in skills[:4]:
+                                        skill_name = skill['name']
+                                        level = skill.get('level', 1)
+                                        if level >= 4:
+                                            top_skills.append(f"**{skill_name}**")
+                                        else:
+                                            top_skills.append(skill_name)
+                                    response_content += f"💼 *Skills:* {', '.join(top_skills)}\n"
+                                
+                                # Recent experience with beautiful formatting
+                                experience = candidate.get('experience', [])
+                                if experience:
+                                    recent_exp = experience[0]
+                                    title = recent_exp.get('title', 'N/A')
+                                    company = recent_exp.get('company', 'N/A')
+                                    response_content += f"🏢 *Latest:* {title} at {company}\n"
+                                
+                                response_content += "\n"
+                            
+                            # Summary
+                            response_content += f"📊 **Found {len(candidates)} candidates** matching your requirements"
+                            
                         else:
-                           response_content = "I couldn't find any matching candidates based on your request."
+                            response_content = "🔍 **No candidates found** for your specific requirements.\n\n"
+                            
+                            requirements = enhanced_results.get('requirements_extracted', {})
+                            if requirements.get('required_skills'):
+                                response_content += f"**I searched for:** {', '.join(requirements['required_skills'][:5])}\n"
+                            if requirements.get('experience_years', 0) > 0:
+                                response_content += f"**Experience needed:** {requirements['experience_years']}+ years\n"
+                            
+                            response_content += "\n💡 *Try adjusting your requirements or being more specific about the role.*"
 
                     except Exception as e:
-                        logger.error(f"Error in candidate matching: {str(e)}")
-                        response_content = "I'm sorry, I encountered an error while trying to find matching candidates. Please try again."
+                        logger.error(f"Error in enhanced candidate matching: {str(e)}")
+                        response_content = "I'm sorry, I encountered an error while analyzing your job description and searching for candidates. Please try again or use the Search page for manual candidate filtering."
 
                 elif is_explanation_request:
                      logger.info("Processing explanation request")

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
   Box,
   Paper,
@@ -886,16 +887,71 @@ const Chat: React.FC = () => {
                               </Box>
                             ) : (
                               <Box sx={{ p: 3 }}>
-                                <Typography
-                                  variant="body1"
-                                  sx={{
-                                    whiteSpace: 'pre-wrap',
-                                    wordBreak: 'break-word',
-                                    lineHeight: 1.6,
+                                <ReactMarkdown
+                                  components={{
+                                    p: ({ children }) => (
+                                      <Typography
+                                        variant="body1"
+                                        sx={{
+                                          mb: 1,
+                                          lineHeight: 1.6,
+                                          '&:last-child': { mb: 0 },
+                                        }}
+                                      >
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    strong: ({ children }) => (
+                                      <Typography
+                                        component="span"
+                                        sx={{
+                                          fontWeight: 600,
+                                          color: isDarkMode ? '#fff' : '#1a1a1a',
+                                        }}
+                                      >
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    em: ({ children }) => (
+                                      <Typography
+                                        component="span"
+                                        sx={{
+                                          fontStyle: 'italic',
+                                          color: isDarkMode ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)',
+                                        }}
+                                      >
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    ul: ({ children }) => (
+                                      <Box component="ul" sx={{ pl: 2, my: 1 }}>
+                                        {children}
+                                      </Box>
+                                    ),
+                                    li: ({ children }) => (
+                                      <Typography component="li" sx={{ mb: 0.5, lineHeight: 1.5 }}>
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    h1: ({ children }) => (
+                                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, mt: 2 }}>
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    h2: ({ children }) => (
+                                      <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, mt: 1.5 }}>
+                                        {children}
+                                      </Typography>
+                                    ),
+                                    h3: ({ children }) => (
+                                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5, mt: 1 }}>
+                                        {children}
+                                      </Typography>
+                                    ),
                                   }}
                                 >
                                   {message.content}
-                                </Typography>
+                                </ReactMarkdown>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
                                   <Typography
                                     variant="caption"
