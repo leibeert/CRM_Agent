@@ -12,7 +12,7 @@ class ExperienceFilter(BaseModel):
     """Schema for experience-based filtering."""
     title: Optional[str] = None
     company: Optional[str] = None
-    min_years: Optional[int] = 0
+    min_years: Optional[int] = None  # Experience duration in years
 
 class EducationFilter(BaseModel):
     """Schema for education-based filtering."""
@@ -36,9 +36,9 @@ class SearchQuery(BaseModel):
 class CandidateResponse(BaseModel):
     """Schema for candidate search results."""
     id: int
-    first_name: str
-    last_name: str
-    email: str
+    first_name: Optional[str] = None  # Allow NULL values
+    last_name: Optional[str] = None   # Allow NULL values
+    email: Optional[str] = None       # Allow NULL values
     phone_number: Optional[str] = None
     match_score: float
     skills: List[Dict[str, Any]]

@@ -74,10 +74,11 @@ export const renameConversation = async (conversationId: number, newTitle: strin
   return response.data;
 };
 
-export const sendMessage = async (conversationId: number, content: string, senderId: number) => {
+export const sendMessage = async (conversationId: number, content: string, senderId: number, model?: string) => {
   const response = await api.post(`/conversations/${conversationId}/messages`, {
     content,
-    sender_id: senderId
+    sender_id: senderId,
+    model: model
   });
   return response.data;
 };
@@ -161,6 +162,17 @@ export const getSavedSearches = async (userId: number) => {
 
 export const deleteSavedSearch = async (searchId: number) => {
   const response = await api.delete(`/api/search/saved/${searchId}`);
+  return response.data;
+};
+
+// AI Model Management functions
+export const getAvailableModels = async () => {
+  const response = await api.get('/api/models');
+  return response.data;
+};
+
+export const testModel = async (modelName: string) => {
+  const response = await api.post(`/api/models/test/${modelName}`);
   return response.data;
 };
 

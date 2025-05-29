@@ -67,7 +67,9 @@ class Skill(ArgoteamBase):
     __tablename__ = 'skills'
 
     id = Column(Integer, primary_key=True, index=True)
-    skill_name = Column(String(100), unique=True, index=True)
+    name = Column(String(100), unique=True, index=True)
+    category_name = Column(Integer, nullable=True)
+    created_by = Column(Integer, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -80,8 +82,11 @@ class ResourceSkill(ArgoteamBase):
     id = Column(Integer, primary_key=True, index=True)
     resource_id = Column(Integer, ForeignKey('resources.id'))
     skill_id = Column(Integer, ForeignKey('skills.id'))
-    level = Column(String(50), nullable=True)
+    level = Column(Integer, nullable=True)  # Changed from String to Integer to match CSV
+    is_level_verified = Column(Boolean, default=False, nullable=True)  # Added missing field
+    is_verified = Column(Boolean, default=False, nullable=True)  # Added missing field
     duration = Column(Integer, nullable=True)  # Duration in months
+    created_by = Column(Integer, nullable=True)  # Added missing field
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -94,11 +99,14 @@ class Experience(ArgoteamBase):
 
     id = Column(Integer, primary_key=True, index=True)
     resource_id = Column(Integer, ForeignKey('resources.id'))
-    title = Column(String(255))
-    company = Column(String(255))
-    start_date = Column(DateTime)
-    end_date = Column(DateTime, nullable=True)
+    name = Column(String(255))  # Changed from company to name to match actual DB
     description = Column(Text, nullable=True)
+    title = Column(String(255))
+    start_date = Column(DateTime, nullable=True)
+    end_date = Column(DateTime, nullable=True)
+    experience_type = Column(Integer, nullable=True)  # Added missing fields from CSV
+    job_type = Column(Integer, nullable=True)
+    job_location = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -134,9 +142,12 @@ class Study(ArgoteamBase):
     resource_id = Column(Integer, ForeignKey('resources.id'))
     degree_type_id = Column(Integer, ForeignKey('degree_types.id'), nullable=True)
     school_id = Column(Integer, ForeignKey('schools.id'), nullable=True)
-    field_of_study = Column(String(255), nullable=True)
+    degree_name = Column(String(255), nullable=True)  # Added missing field from CSV
+    description = Column(Text, nullable=True)  # Added missing field from CSV
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
+    study_type = Column(Integer, nullable=True)  # Added missing field from CSV
+    is_verified = Column(Boolean, default=False, nullable=True)  # Added missing field from CSV
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

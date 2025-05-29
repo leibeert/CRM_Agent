@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, Outlet } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, CircularProgress, Box } from '@mui/material';
 import Login from './components/Login';
 import Search from './components/Search';
 import EnhancedSearch from './components/EnhancedSearch';
@@ -14,6 +14,7 @@ import { CustomThemeProvider } from './contexts/ThemeContext';
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.token);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
   useEffect(() => {
@@ -27,6 +28,15 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
         });
     }
   }, [token, clearAuth]);
+
+  // Wait for auth initialization
+  if (!isInitialized) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   if (!user || !token) {
     return <Navigate to="/login" replace />;
@@ -73,6 +83,41 @@ const Layout: React.FC = () => {
 const AppContent: React.FC = () => {
   const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.token);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const initAuth = async () => {
+      setIsLoading(true);
+      await initializeAuth();
+      setIsLoading(false);
+    };
+    
+    if (!isInitialized) {
+      initAuth();
+    } else {
+      setIsLoading(false);
+    }
+  }, [initializeAuth, isInitialized]);
+
+  // Show loading spinner while initializing auth
+  if (isLoading || !isInitialized) {
+    return (
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        minHeight="100vh"
+        flexDirection="column"
+      >
+        <CircularProgress size={60} />
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Initializing...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Router>

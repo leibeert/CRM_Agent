@@ -57,7 +57,9 @@ import {
   deleteConversation,
   renameConversation,
   editMessage,
-  deleteMessage
+  deleteMessage,
+  getAvailableModels,
+  testModel
 } from '../utils/api';
 import { useTheme as useCustomTheme } from '../contexts/ThemeContext';
 
@@ -88,6 +90,18 @@ interface Conversation {
   };
 }
 
+interface AIModel {
+  name: string;
+  provider: string;
+  cost: string;
+  status: string;
+}
+
+interface ModelsResponse {
+  models: Record<string, AIModel>;
+  default_model: string;
+}
+
 const Chat: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
@@ -105,6 +119,13 @@ const Chat: React.FC = () => {
   const [newConversationTitle, setNewConversationTitle] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
+  
+  // New AI Model Selection State
+  const [availableModels, setAvailableModels] = useState<Record<string, AIModel>>({});
+  const [selectedModel, setSelectedModel] = useState<string>('');
+  const [modelMenuAnchor, setModelMenuAnchor] = useState<null | HTMLElement>(null);
+  const [modelLoading, setModelLoading] = useState(false);
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -115,6 +136,7 @@ const Chat: React.FC = () => {
   useEffect(() => {
     if (user) {
       loadConversations();
+      loadAvailableModels();
     }
   }, [user]);
 
@@ -164,6 +186,37 @@ const Chat: React.FC = () => {
     await loadMessages(conversation.id);
   };
 
+  // New function to load available AI models
+  const loadAvailableModels = async () => {
+    try {
+      setModelLoading(true);
+      const response: ModelsResponse = await getAvailableModels();
+      setAvailableModels(response.models);
+      setSelectedModel(response.default_model || Object.keys(response.models)[0] || '');
+    } catch (err) {
+      console.error('Error loading available models:', err);
+    } finally {
+      setModelLoading(false);
+    }
+  };
+
+  // New function to test a model
+  const handleTestModel = async (modelName: string) => {
+    try {
+      const response = await testModel(modelName);
+      console.log(`Model ${modelName} test:`, response);
+    } catch (err) {
+      console.error(`Error testing model ${modelName}:`, err);
+    }
+  };
+
+  // New function to handle model selection
+  const handleModelSelect = (modelName: string) => {
+    setSelectedModel(modelName);
+    setModelMenuAnchor(null);
+  };
+
+  // Update handleSendMessage to include model selection
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !selectedConversation || !user || sending) return;
@@ -185,8 +238,8 @@ const Chat: React.FC = () => {
       };
       setMessages(prev => [...prev, tempUserMessage]);
 
-      // Send message to backend
-      const message = await sendMessage(selectedConversation.id, messageContent, user.id);
+      // Send message to backend with selected model
+      const message = await sendMessage(selectedConversation.id, messageContent, user.id, selectedModel);
       
       // Replace temp message with real one and reload to get agent response
       await loadMessages(selectedConversation.id);
@@ -941,7 +994,7 @@ const Chat: React.FC = () => {
                 )}
                 
                 {/* Spacer for fixed input */}
-                <Box sx={{ height: 120 }} />
+                <Box sx={{ height: 80 }} />
                 <div ref={messagesEndRef} />
               </Box>
 
@@ -963,68 +1016,162 @@ const Chat: React.FC = () => {
               >
                 <Box sx={{ width: '100%', maxWidth: 800 }}>
                   <Box component="form" onSubmit={handleSendMessage}>
-                    <TextField
-                      fullWidth
-                      multiline
-                      maxRows={4}
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Message CRM Assistant"
-                      variant="outlined"
-                      disabled={sending}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              type="submit"
-                              disabled={!newMessage.trim() || sending}
-                              sx={{
-                                borderRadius: '12px',
-                                background: newMessage.trim() 
-                                  ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
-                                  : 'transparent',
-                                color: newMessage.trim() ? 'white' : theme.palette.text.disabled,
-                                '&:hover': {
-                                  background: newMessage.trim()
-                                    ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
-                                    : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
-                                  transform: newMessage.trim() ? 'translateY(-1px)' : 'none',
-                                },
-                                '&:disabled': {
-                                  background: 'transparent',
-                                  color: theme.palette.text.disabled,
-                                },
-                                transition: 'all 0.2s ease',
-                              }}
-                            >
-                              <Send />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                        sx: {
-                          borderRadius: '20px',
-                          backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 1 }}>
+                      {/* AI Model Selector - Left side of input */}
+                      <Chip
+                        variant="outlined"
+                        size="small"
+                        onClick={(e) => setModelMenuAnchor(e.currentTarget)}
+                        disabled={modelLoading || Object.keys(availableModels).length === 0}
+                        label={
+                          modelLoading ? (
+                            <CircularProgress size={12} />
+                          ) : selectedModel && availableModels[selectedModel] ? (
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                              <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.7rem' }}>
+                                {availableModels[selectedModel].name.split(' ')[0]} {/* Show only first word */}
+                              </Typography>
+                              {availableModels[selectedModel].status !== 'Available' && (
+                                <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'error.main' }} />
+                              )}
+                            </Box>
+                          ) : (
+                            <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>AI</Typography>
+                          )
+                        }
+                        sx={{
+                          height: 32,
+                          mb: 0.5,
+                          '& .MuiChip-label': { px: 0.5, fontSize: '0.7rem' },
+                          borderColor: isDarkMode ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.2)',
+                          cursor: 'pointer',
                           '&:hover': {
-                            borderColor: isDarkMode 
-                              ? 'rgba(99, 102, 241, 0.5)'
-                              : 'rgba(99, 102, 241, 0.3)',
-                          },
-                          '&.Mui-focused': {
                             borderColor: theme.palette.primary.main,
-                            boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+                            backgroundColor: isDarkMode ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
                           },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
+                        }}
+                      />
+                      
+                      {/* Message Input Field */}
+                      <TextField
+                        fullWidth
+                        multiline
+                        maxRows={4}
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Message CRM Assistant"
+                        variant="outlined"
+                        disabled={sending}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                type="submit"
+                                disabled={!newMessage.trim() || sending}
+                                sx={{
+                                  borderRadius: '12px',
+                                  background: newMessage.trim() 
+                                    ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
+                                    : 'transparent',
+                                  color: newMessage.trim() ? 'white' : theme.palette.text.disabled,
+                                  '&:hover': {
+                                    background: newMessage.trim()
+                                      ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
+                                      : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                                    transform: newMessage.trim() ? 'translateY(-1px)' : 'none',
+                                  },
+                                  '&:disabled': {
+                                    background: 'transparent',
+                                    color: theme.palette.text.disabled,
+                                  },
+                                  transition: 'all 0.2s ease',
+                                }}
+                              >
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                          sx: {
+                            borderRadius: '20px',
+                            backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+                            '&:hover': {
+                              borderColor: isDarkMode 
+                                ? 'rgba(99, 102, 241, 0.5)'
+                                : 'rgba(99, 102, 241, 0.3)',
+                            },
+                            '&.Mui-focused': {
+                              borderColor: theme.palette.primary.main,
+                              boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+                            },
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              border: 'none',
+                            },
+                          },
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage(e);
+                          }
+                        }}
+                      />
+                    </Box>
+                    
+                    {/* Model Selection Menu */}
+                    <Menu
+                      anchorEl={modelMenuAnchor}
+                      open={Boolean(modelMenuAnchor)}
+                      onClose={() => setModelMenuAnchor(null)}
+                      PaperProps={{
+                        sx: {
+                          borderRadius: '12px',
+                          mt: 1,
+                          maxWidth: 280,
+                          '& .MuiMenuItem-root': {
+                            borderRadius: '8px',
+                            mx: 1,
+                            my: 0.5,
                           },
                         },
                       }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage(e);
-                        }
-                      }}
-                    />
+                    >
+                      {Object.entries(availableModels).map(([modelId, model]) => (
+                        <MenuItem
+                          key={modelId}
+                          onClick={() => handleModelSelect(modelId)}
+                          selected={selectedModel === modelId}
+                          sx={{ py: 1 }}
+                        >
+                          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                            <Box sx={{ flex: 1 }}>
+                              <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
+                                {model.name}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                                {model.provider} • {model.cost}
+                              </Typography>
+                            </Box>
+                            <Box sx={{ ml: 1 }}>
+                              <Box 
+                                sx={{ 
+                                  width: 8, 
+                                  height: 8, 
+                                  borderRadius: '50%', 
+                                  bgcolor: model.status === 'Available' ? 'success.main' : 'error.main' 
+                                }} 
+                              />
+                            </Box>
+                          </Box>
+                        </MenuItem>
+                      ))}
+                      {Object.keys(availableModels).length === 0 && (
+                        <MenuItem disabled sx={{ py: 1 }}>
+                          <Typography variant="caption" color="text.secondary">
+                            No AI models available
+                          </Typography>
+                        </MenuItem>
+                      )}
+                    </Menu>
                   </Box>
                 </Box>
               </Box>
@@ -1157,68 +1304,162 @@ const Chat: React.FC = () => {
               >
                 <Box sx={{ maxWidth: 600, width: '100%' }}>
                   <Box component="form" onSubmit={handleSendMessage}>
-                    <TextField
-                      fullWidth
-                      multiline
-                      maxRows={4}
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Message CRM Assistant"
-                      variant="outlined"
-                      disabled={sending}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              type="submit"
-                              disabled={!newMessage.trim() || sending}
-                              sx={{
-                                borderRadius: '12px',
-                                background: newMessage.trim() 
-                                  ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
-                                  : 'transparent',
-                                color: newMessage.trim() ? 'white' : theme.palette.text.disabled,
-                                '&:hover': {
-                                  background: newMessage.trim()
-                                    ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
-                                    : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
-                                  transform: newMessage.trim() ? 'translateY(-1px)' : 'none',
-                                },
-                                '&:disabled': {
-                                  background: 'transparent',
-                                  color: theme.palette.text.disabled,
-                                },
-                                transition: 'all 0.2s ease',
-                              }}
-                            >
-                              <Send />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                        sx: {
-                          borderRadius: '20px',
-                          backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 1 }}>
+                      {/* AI Model Selector - Left side of input */}
+                      <Chip
+                        variant="outlined"
+                        size="small"
+                        onClick={(e) => setModelMenuAnchor(e.currentTarget)}
+                        disabled={modelLoading || Object.keys(availableModels).length === 0}
+                        label={
+                          modelLoading ? (
+                            <CircularProgress size={12} />
+                          ) : selectedModel && availableModels[selectedModel] ? (
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                              <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.7rem' }}>
+                                {availableModels[selectedModel].name.split(' ')[0]} {/* Show only first word */}
+                              </Typography>
+                              {availableModels[selectedModel].status !== 'Available' && (
+                                <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'error.main' }} />
+                              )}
+                            </Box>
+                          ) : (
+                            <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>AI</Typography>
+                          )
+                        }
+                        sx={{
+                          height: 32,
+                          mb: 0.5,
+                          '& .MuiChip-label': { px: 0.5, fontSize: '0.7rem' },
+                          borderColor: isDarkMode ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.2)',
+                          cursor: 'pointer',
                           '&:hover': {
-                            borderColor: isDarkMode 
-                              ? 'rgba(99, 102, 241, 0.5)'
-                              : 'rgba(99, 102, 241, 0.3)',
-                          },
-                          '&.Mui-focused': {
                             borderColor: theme.palette.primary.main,
-                            boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+                            backgroundColor: isDarkMode ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
                           },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
+                        }}
+                      />
+                      
+                      {/* Message Input Field */}
+                      <TextField
+                        fullWidth
+                        multiline
+                        maxRows={4}
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Message CRM Assistant"
+                        variant="outlined"
+                        disabled={sending}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                type="submit"
+                                disabled={!newMessage.trim() || sending}
+                                sx={{
+                                  borderRadius: '12px',
+                                  background: newMessage.trim() 
+                                    ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
+                                    : 'transparent',
+                                  color: newMessage.trim() ? 'white' : theme.palette.text.disabled,
+                                  '&:hover': {
+                                    background: newMessage.trim()
+                                      ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
+                                      : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                                    transform: newMessage.trim() ? 'translateY(-1px)' : 'none',
+                                  },
+                                  '&:disabled': {
+                                    background: 'transparent',
+                                    color: theme.palette.text.disabled,
+                                  },
+                                  transition: 'all 0.2s ease',
+                                }}
+                              >
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                          sx: {
+                            borderRadius: '20px',
+                            backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+                            '&:hover': {
+                              borderColor: isDarkMode 
+                                ? 'rgba(99, 102, 241, 0.5)'
+                                : 'rgba(99, 102, 241, 0.3)',
+                            },
+                            '&.Mui-focused': {
+                              borderColor: theme.palette.primary.main,
+                              boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+                            },
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              border: 'none',
+                            },
+                          },
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage(e);
+                          }
+                        }}
+                      />
+                    </Box>
+                    
+                    {/* Model Selection Menu */}
+                    <Menu
+                      anchorEl={modelMenuAnchor}
+                      open={Boolean(modelMenuAnchor)}
+                      onClose={() => setModelMenuAnchor(null)}
+                      PaperProps={{
+                        sx: {
+                          borderRadius: '12px',
+                          mt: 1,
+                          maxWidth: 280,
+                          '& .MuiMenuItem-root': {
+                            borderRadius: '8px',
+                            mx: 1,
+                            my: 0.5,
                           },
                         },
                       }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage(e);
-                        }
-                      }}
-                    />
+                    >
+                      {Object.entries(availableModels).map(([modelId, model]) => (
+                        <MenuItem
+                          key={modelId}
+                          onClick={() => handleModelSelect(modelId)}
+                          selected={selectedModel === modelId}
+                          sx={{ py: 1 }}
+                        >
+                          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                            <Box sx={{ flex: 1 }}>
+                              <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
+                                {model.name}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                                {model.provider} • {model.cost}
+                              </Typography>
+                            </Box>
+                            <Box sx={{ ml: 1 }}>
+                              <Box 
+                                sx={{ 
+                                  width: 8, 
+                                  height: 8, 
+                                  borderRadius: '50%', 
+                                  bgcolor: model.status === 'Available' ? 'success.main' : 'error.main' 
+                                }} 
+                              />
+                            </Box>
+                          </Box>
+                        </MenuItem>
+                      ))}
+                      {Object.keys(availableModels).length === 0 && (
+                        <MenuItem disabled sx={{ py: 1 }}>
+                          <Typography variant="caption" color="text.secondary">
+                            No AI models available
+                          </Typography>
+                        </MenuItem>
+                      )}
+                    </Menu>
                   </Box>
                 </Box>
               </Box>

@@ -21,7 +21,24 @@ from api.enhanced_search_routes import enhanced_search_bp
 from auth import token_required, JWT_SECRET_KEY, JWT_ACCESS_TOKEN_EXPIRES
 
 # Import necessary Langchain components
-from langchain_openai import ChatOpenAI
+try:
+    from langchain_openai import ChatOpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+
+try:
+    from langchain_community.llms import Ollama
+    OLLAMA_AVAILABLE = True
+except ImportError:
+    OLLAMA_AVAILABLE = False
+
+try:
+    from langchain_anthropic import ChatAnthropic
+    CLAUDE_AVAILABLE = True
+except ImportError:
+    CLAUDE_AVAILABLE = False
+
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
@@ -33,6 +50,15 @@ logger = logging.getLogger(__name__)
 # Load environment variables
 load_dotenv()
 
+# Check if required environment variables are present
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+if not OPENAI_API_KEY:
+    logger.warning("OPENAI_API_KEY not found in environment variables.")
+    logger.warning("To enable AI chat features, please:")
+    logger.warning("1. Create a .env file in the crm directory")
+    logger.warning("2. Add: OPENAI_API_KEY=your_actual_api_key_here")
+    logger.warning("Chat will respond with informational messages until API key is added.")
+
 app = Flask(__name__)
 CORS(app)
 
@@ -41,50 +67,344 @@ app.register_blueprint(enhanced_search_bp)
 
 matcher = CandidateMatcher()
 
-# Initialize Langchain components
-# Ensure OPENAI_API_KEY is set in your .env file
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+# Initialize Langchain components only if API key is available
+llm = None
+general_chatbot_chain = None
+explanation_chain = None
 
-# Define a general prompt for the chatbot
-general_chatbot_prompt = PromptTemplate.from_template(
-    "You are a helpful recruitment assistant chatbot. Respond to the user's query.\n\nUser: {query}\nAgent:"
-)
-
-# Define a prompt for explaining candidate matching
-explanation_prompt = PromptTemplate.from_template(
-    "You are a recruitment assistant chatbot explaining candidate matching results.\nExplain to the user how the candidates were matched based on the provided job description and their skills.\n\nJob Description: {job_description}\nCandidate Matches: {match_results}\n\nExplain the matching process:"
-)
-
-output_parser = StrOutputParser()
-
-# Create Langchain chains
-general_chatbot_chain = (
-    {"query": RunnablePassthrough()} 
-    | general_chatbot_prompt 
-    | llm 
-    | output_parser
-)
-
-explanation_chain = (
-    RunnablePassthrough() 
-    | explanation_prompt 
-    | llm 
-    | output_parser
-)
-
-# Helper function to get LLM response
-def get_agent_response(query: str, context: dict = None, explanation_context: dict = None) -> str:
-    """Get response from the LLM, potentially with context."""
+# Try OpenAI first
+if OPENAI_API_KEY and OPENAI_AVAILABLE:
     try:
-        if explanation_context:
-            # Use explanation chain if explanation context is provided
-            return explanation_chain.invoke(explanation_context)
-        else:
-            # Use general chatbot chain for other queries
-            return general_chatbot_chain.invoke({"query": query})
+        # Initialize Langchain components
+        # Ensure OPENAI_API_KEY is set in your .env file
+        llm = ChatOpenAI(model="gpt-4", temperature=0.7, api_key=OPENAI_API_KEY)
+        logger.info("OpenAI LLM initialized successfully")
+        
+        # Define a general prompt for the chatbot
+        general_chatbot_prompt = PromptTemplate.from_template(
+            "You are a helpful recruitment assistant chatbot. Respond to the user's query.\n\nUser: {query}\nAgent:"
+        )
+
+        # Define a prompt for explaining candidate matching
+        explanation_prompt = PromptTemplate.from_template(
+            "You are a recruitment assistant chatbot explaining candidate matching results.\nExplain to the user how the candidates were matched based on the provided job description and their skills.\n\nJob Description: {job_description}\nCandidate Matches: {match_results}\n\nExplain the matching process:"
+        )
+
+        output_parser = StrOutputParser()
+
+        # Create Langchain chains
+        general_chatbot_chain = (
+            {"query": RunnablePassthrough()} 
+            | general_chatbot_prompt 
+            | llm 
+            | output_parser
+        )
+
+        explanation_chain = (
+            RunnablePassthrough() 
+            | explanation_prompt 
+            | llm 
+            | output_parser
+        )
+        
     except Exception as e:
-        logger.error(f"Error getting LLM response: {str(e)}")
-        return "I'm sorry, I couldn't process that request right now."
+        logger.error(f"Failed to initialize OpenAI LLM: {str(e)}")
+        llm = None
+
+# Try Ollama as fallback if OpenAI failed or not available
+if llm is None and OLLAMA_AVAILABLE:
+    try:
+        # Try to connect to local Ollama instance
+        llm = Ollama(model="llama3.2:3b")  # Smaller, faster model
+        logger.info("Ollama LLM initialized successfully (free local AI)")
+        
+        # Define a general prompt for the chatbot
+        general_chatbot_prompt = PromptTemplate.from_template(
+            "You are a helpful recruitment assistant chatbot. Respond to the user's query.\n\nUser: {query}\nAgent:"
+        )
+
+        # Define a prompt for explaining candidate matching
+        explanation_prompt = PromptTemplate.from_template(
+            "You are a recruitment assistant chatbot explaining candidate matching results.\nExplain to the user how the candidates were matched based on the provided job description and their skills.\n\nJob Description: {job_description}\nCandidate Matches: {match_results}\n\nExplain the matching process:"
+        )
+
+        output_parser = StrOutputParser()
+
+        # Create Langchain chains
+        general_chatbot_chain = (
+            {"query": RunnablePassthrough()} 
+            | general_chatbot_prompt 
+            | llm 
+            | output_parser
+        )
+
+        explanation_chain = (
+            RunnablePassthrough() 
+            | explanation_prompt 
+            | llm 
+            | output_parser
+        )
+        
+    except Exception as e:
+        logger.warning(f"Ollama not available: {str(e)}")
+        llm = None
+
+if llm is None:
+    if not OPENAI_API_KEY:
+        logger.warning("No OpenAI API key found.")
+    if not OLLAMA_AVAILABLE:
+        logger.warning("Ollama not installed.")
+    logger.warning("No AI service available. Chat will use fallback responses.")
+    logger.warning("To enable AI features:")
+    logger.warning("1. Install Ollama: https://ollama.ai/ (free)")
+    logger.warning("2. Run: ollama pull llama3.2:3b")
+    logger.warning("3. Restart this server")
+
+# Multi-Model AI Manager
+class AIModelManager:
+    def __init__(self):
+        self.models = {}
+        self.chains = {}
+        self.available_models = {}
+        self.default_model = None
+        
+        # Initialize available models
+        self._initialize_models()
+    
+    def _initialize_models(self):
+        """Initialize all available AI models."""
+        # OpenAI
+        openai_api_key = os.getenv('OPENAI_API_KEY')
+        if openai_api_key and OPENAI_AVAILABLE:
+            try:
+                self.models['openai'] = ChatOpenAI(model="gpt-4", temperature=0.7, api_key=openai_api_key)
+                self.available_models['openai'] = {
+                    'name': 'OpenAI GPT-4',
+                    'provider': 'OpenAI',
+                    'cost': 'Paid',
+                    'status': 'Available'
+                }
+                logger.info("OpenAI model initialized successfully")
+                if not self.default_model:
+                    self.default_model = 'openai'
+            except Exception as e:
+                logger.error(f"Failed to initialize OpenAI: {str(e)}")
+                self.available_models['openai'] = {
+                    'name': 'OpenAI GPT-4',
+                    'provider': 'OpenAI', 
+                    'cost': 'Paid',
+                    'status': f'Error: {str(e)}'
+                }
+
+        # Claude (Anthropic)
+        claude_api_key = os.getenv('ANTHROPIC_API_KEY')
+        if claude_api_key and CLAUDE_AVAILABLE:
+            try:
+                self.models['claude'] = ChatAnthropic(model="claude-3-haiku-20240307", api_key=claude_api_key)
+                self.available_models['claude'] = {
+                    'name': 'Claude 3 Haiku',
+                    'provider': 'Anthropic',
+                    'cost': 'Paid',
+                    'status': 'Available'
+                }
+                logger.info("Claude model initialized successfully")
+                if not self.default_model:
+                    self.default_model = 'claude'
+            except Exception as e:
+                logger.error(f"Failed to initialize Claude: {str(e)}")
+                self.available_models['claude'] = {
+                    'name': 'Claude 3 Haiku',
+                    'provider': 'Anthropic',
+                    'cost': 'Paid', 
+                    'status': f'Error: {str(e)}'
+                }
+
+        # Ollama (Local)
+        if OLLAMA_AVAILABLE:
+            try:
+                self.models['llama'] = Ollama(model="llama3.2:3b")
+                self.available_models['llama'] = {
+                    'name': 'Llama 3.2 3B',
+                    'provider': 'Meta (Local)',
+                    'cost': 'Free',
+                    'status': 'Available'
+                }
+                logger.info("Llama model initialized successfully")
+                if not self.default_model:
+                    self.default_model = 'llama'
+            except Exception as e:
+                logger.warning(f"Ollama not available: {str(e)}")
+                self.available_models['llama'] = {
+                    'name': 'Llama 3.2 3B', 
+                    'provider': 'Meta (Local)',
+                    'cost': 'Free',
+                    'status': 'Not installed - Install Ollama first'
+                }
+
+        # Initialize chains for available models
+        self._initialize_chains()
+        
+        if not self.models:
+            logger.warning("No AI models available!")
+            logger.warning("To enable AI features:")
+            logger.warning("1. For OpenAI: Add OPENAI_API_KEY to .env file")
+            logger.warning("2. For Claude: Add ANTHROPIC_API_KEY to .env file") 
+            logger.warning("3. For Llama: Install Ollama from https://ollama.ai/")
+
+    def _initialize_chains(self):
+        """Initialize langchain chains for each available model."""
+        general_prompt = PromptTemplate.from_template(
+            "You are a helpful recruitment assistant chatbot. Respond to the user's query.\n\nUser: {query}\nAgent:"
+        )
+        
+        explanation_prompt = PromptTemplate.from_template(
+            "You are a recruitment assistant chatbot explaining candidate matching results.\nExplain to the user how the candidates were matched based on the provided job description and their skills.\n\nJob Description: {job_description}\nCandidate Matches: {match_results}\n\nExplain the matching process:"
+        )
+        
+        output_parser = StrOutputParser()
+        
+        for model_name, model in self.models.items():
+            self.chains[model_name] = {
+                'general': (
+                    {"query": RunnablePassthrough()} 
+                    | general_prompt 
+                    | model 
+                    | output_parser
+                ),
+                'explanation': (
+                    RunnablePassthrough() 
+                    | explanation_prompt 
+                    | model 
+                    | output_parser
+                )
+            }
+
+    def get_response(self, query: str, model_name: str = None, explanation_context: dict = None) -> str:
+        """Get AI response using specified model."""
+        if not model_name or model_name not in self.models:
+            model_name = self.default_model
+            
+        if not model_name or model_name not in self.models:
+            return self._get_fallback_response(query)
+            
+        try:
+            if explanation_context:
+                return self.chains[model_name]['explanation'].invoke(explanation_context)
+            else:
+                return self.chains[model_name]['general'].invoke({"query": query})
+        except Exception as e:
+            logger.error(f"Error with {model_name} model: {str(e)}")
+            return self._handle_model_error(str(e), model_name)
+
+    def _handle_model_error(self, error: str, model_name: str) -> str:
+        """Handle model-specific errors with helpful messages."""
+        error_lower = error.lower()
+        
+        if "429" in error_lower or "quota" in error_lower:
+            return f"""**{self.available_models[model_name]['name']} Quota Exceeded**
+
+Your {self.available_models[model_name]['provider']} account has exceeded its limits.
+
+**Try these alternatives:**
+{self._get_alternative_models_message(model_name)}"""
+        
+        elif "authentication" in error_lower or "api" in error_lower:
+            return f"""**{self.available_models[model_name]['name']} Authentication Error**
+
+Please check your API key configuration.
+
+**Try these alternatives:**
+{self._get_alternative_models_message(model_name)}"""
+            
+        else:
+            return f"""**Error with {self.available_models[model_name]['name']}**: {error}
+
+**Try these alternatives:**
+{self._get_alternative_models_message(model_name)}"""
+
+    def _get_alternative_models_message(self, failed_model: str) -> str:
+        """Get message about alternative available models."""
+        alternatives = []
+        for model_id, info in self.available_models.items():
+            if model_id != failed_model and model_id in self.models:
+                alternatives.append(f"- **{info['name']}** ({info['cost']})")
+        
+        if alternatives:
+            return "\n".join(alternatives) + "\n\nYou can switch models using the model selector in the chat."
+        else:
+            return "No other models currently available. Please configure additional AI providers."
+
+    def _get_fallback_response(self, query: str) -> str:
+        """Provide helpful response when no AI models are available."""
+        query_lower = query.lower()
+        
+        if any(word in query_lower for word in ['job', 'position', 'role', 'hiring', 'developer', 'engineer']):
+            return """I understand you're looking for candidates, but no AI models are currently available.
+
+**To enable AI features, set up one of these:**
+
+🤖 **Free Option (Recommended):**
+- Install Ollama: https://ollama.ai/
+- Run: `ollama pull llama3.2:3b`
+
+💳 **Paid Options:**
+- OpenAI: Add `OPENAI_API_KEY=your_key` to .env file
+- Claude: Add `ANTHROPIC_API_KEY=your_key` to .env file
+
+**For now:** You can use Enhanced Search to find candidates."""
+        
+        return f"""I received: "{query}"
+
+No AI models are currently available. Please configure at least one AI provider to enable chat features.
+
+You can still use the Enhanced Search feature."""
+
+    def get_available_models(self) -> dict:
+        """Get list of available models for frontend."""
+        return self.available_models
+
+# Initialize AI Model Manager
+ai_manager = AIModelManager()
+
+# Helper function to get LLM response (updated to use AI Manager)
+def get_agent_response(query: str, model_name: str = None, explanation_context: dict = None) -> str:
+    """Get response from the AI model manager."""
+    return ai_manager.get_response(query, model_name, explanation_context)
+
+@app.route('/api/models', methods=['GET'])
+@token_required
+def get_available_models(current_user):
+    """Get list of available AI models."""
+    try:
+        models = ai_manager.get_available_models()
+        return jsonify({
+            'models': models,
+            'default_model': ai_manager.default_model
+        }), 200
+    except Exception as e:
+        logger.error(f"Error getting available models: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/models/test/<model_name>', methods=['POST'])
+@token_required  
+def test_model(current_user, model_name):
+    """Test if a specific model is working."""
+    try:
+        test_query = "Hello! Can you confirm you're working?"
+        response = ai_manager.get_response(test_query, model_name)
+        
+        return jsonify({
+            'model': model_name,
+            'status': 'working',
+            'test_response': response
+        }), 200
+    except Exception as e:
+        logger.error(f"Error testing model {model_name}: {str(e)}")
+        return jsonify({
+            'model': model_name,
+            'status': 'error',
+            'error': str(e)
+        }), 500
 
 # Create database tables
 try:
@@ -206,6 +526,23 @@ def login():
         logger.error(f"Error during login: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/auth/validate', methods=['GET'])
+@token_required
+def validate_token(current_user):
+    """Validate JWT token and return user info if valid."""
+    try:
+        return jsonify({
+            'valid': True,
+            'user': {
+                'id': current_user.id,
+                'username': current_user.username,
+                'email': current_user.email
+            }
+        }), 200
+    except Exception as e:
+        logger.error(f"Error during token validation: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint."""
@@ -318,6 +655,7 @@ def send_message(current_user, conversation_id):
         sender_id = data.get('sender_id')
         content = data.get('content')
         is_agent = data.get('is_agent', False)
+        selected_model = data.get('model', None)  # New: Accept model selection
 
         if not sender_id or not content:
             logger.warning("Missing sender_id or content in message request")
@@ -405,23 +743,23 @@ def send_message(current_user, conversation_id):
                              break
 
                      if last_match_message:
-                         # Use LLM to explain based on the last match results and the original job description
+                         # Use AI to explain based on the last match results and the original job description
                          # Note: Retrieving the *original* job description requires more sophisticated context handling.
                          # For this simplified version, I'll use the last agent message containing results.
                          explanation_context = {
                              "job_description": "(Previous job description - needs to be retrieved)", # Placeholder, ideally fetch actual previous JD
                              "match_results": last_match_message
                          }
-                         response_content = get_agent_response(query=content, explanation_context=explanation_context)
+                         response_content = get_agent_response(query=content, model_name=selected_model, explanation_context=explanation_context)
 
                      else:
                          # If no recent match results found, ask for clarification or give a general explanation
                          response_content = "I can explain the matching process, but I need to know which job description and results you're asking about. Please provide the job description again or refer to a previous result."
 
                 else:
-                    logger.info("Processing general chat query")
-                    # Use LLM for general queries
-                    response_content = get_agent_response(query=content)
+                    logger.info(f"Processing general chat query with model: {selected_model or 'default'}")
+                    # Use AI for general queries with selected model
+                    response_content = get_agent_response(query=content, model_name=selected_model)
 
                 # Send the agent's response if response_content was generated
                 if response_content:
@@ -891,7 +1229,7 @@ def search_candidates(current_user):
         data = request.get_json()
         search_service = SearchService()
         
-        # Convert request data to SearchQuery
+        # Convert request data to SearchQuery with proper defaults
         query = SearchQuery(
             keywords=data.get('keywords'),
             skills=[SkillFilter(**skill) for skill in data.get('skills', [])],
@@ -899,8 +1237,8 @@ def search_candidates(current_user):
             education=EducationFilter(**data.get('education', {})) if data.get('education') else None,
             location=data.get('location'),
             min_match_score=data.get('min_match_score'),
-            sort_by=data.get('sort_by'),
-            sort_order=data.get('sort_order'),
+            sort_by=data.get('sort_by') or 'match_score',  # Provide default if None
+            sort_order=data.get('sort_order') or 'desc',    # Provide default if None
             page=data.get('page', 1),
             page_size=data.get('page_size', 10)
         )
@@ -926,13 +1264,13 @@ def save_search(current_user):
             
         search_service = SearchService()
         
-        # Create SavedSearchCreate object
+        # Create SavedSearchCreate object with proper defaults
         saved_search = SavedSearchCreate(
             name=data.get('name'),
             description=data.get('description'),
             filters=SearchQuery(**data.get('filters', {})),
-            sort_by=data.get('sort_by'),
-            sort_order=data.get('sort_order')
+            sort_by=data.get('sort_by') or 'match_score',    # Provide default if None
+            sort_order=data.get('sort_order') or 'desc'      # Provide default if None
         )
         
         # Save search
