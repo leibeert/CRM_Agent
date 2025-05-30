@@ -20,6 +20,23 @@ from api.enhanced_search_routes import enhanced_search_bp
 # Import auth utilities
 from auth import token_required, JWT_SECRET_KEY, JWT_ACCESS_TOKEN_EXPIRES
 
+# Configure logging first (before AI matching service)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# Import AI Candidate Matching System
+try:
+    import sys
+    sys.path.append(os.path.join(os.path.dirname(__file__), 'ai_candidate_matching'))
+    from ai_candidate_matching.services.matching_service import MLMatchingService
+    ai_matching_service = MLMatchingService(data_path="../database_tables")
+    AI_MATCHING_AVAILABLE = True
+    logger.info(f"AI Candidate Matching initialized successfully")
+except Exception as e:
+    AI_MATCHING_AVAILABLE = False
+    ai_matching_service = None
+    logger.warning(f"AI Candidate Matching not available: {e}")
+
 # Import necessary Langchain components
 try:
     from langchain_openai import ChatOpenAI
@@ -42,10 +59,6 @@ except ImportError:
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -414,10 +427,44 @@ except Exception as e:
     logger.error(f"Error creating database tables: {str(e)}")
     raise
 
-# @app.route('/')
-# def index():
-#     """Serve the React app."""
-#     return render_template('index.html')
+@app.route('/')
+def index():
+    """Serve the main candidate matcher page."""
+    return render_template('index.html')
+
+@app.route('/find-candidates', methods=['POST'])
+def find_candidates():
+    """Basic candidate search endpoint."""
+    try:
+        data = request.get_json()
+        job_description = data.get('description', '')
+        
+        if not job_description:
+            return jsonify({'error': 'Job description is required'}), 400
+        
+        # Use the existing matcher for basic search
+        results = matcher.find_matching_candidates_enhanced(job_description)
+        
+        # Format response for the frontend
+        candidates = []
+        for candidate in results.get('candidates', []):
+            candidates.append({
+                'name': f"{candidate.get('first_name', '')} {candidate.get('last_name', '')}".strip(),
+                'match_score': candidate.get('match_score', 0) / 100 if isinstance(candidate.get('match_score', 0), (int, float)) else 0.5,
+                'match_details': [
+                    f"Skills match: {len(candidate.get('skills', []))} skills",
+                    f"Experience: {candidate.get('experience_years', 0)} years"
+                ]
+            })
+        
+        return jsonify({
+            'candidates': candidates,
+            'required_skills': results.get('requirements_extracted', {}).get('required_skills', [])
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in find_candidates: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -1310,6 +1357,87 @@ def download_candidates():
     except Exception as e:
         logger.error(f"Error generating candidate download file: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+@app.route('/api/ai-search', methods=['POST'])
+def ai_candidate_search():
+    """AI-powered candidate search endpoint."""
+    try:
+        if not AI_MATCHING_AVAILABLE:
+            return jsonify({
+                'status': 'error',
+                'message': 'AI candidate matching service is not available'
+            }), 503
+        
+        query_params = request.get_json()
+        
+        # Extract parameters
+        job_title = query_params.get('job_title', '')
+        required_skills = query_params.get('required_skills', '')
+        preferred_skills = query_params.get('preferred_skills', '')
+        min_experience = query_params.get('min_experience', 0)
+        location = query_params.get('location', '')
+        top_k = query_params.get('top_k', 10)
+        
+        # Build job description from parameters
+        job_description = f"""
+        Job Title: {job_title}
+        
+        We are looking for a candidate with the following qualifications:
+        
+        Required Skills: {required_skills}
+        Preferred Skills: {preferred_skills}
+        
+        Minimum Experience: {min_experience} years
+        Location: {location}
+        """
+        
+        # Check if model is trained, if not, return error with training instructions
+        if not ai_matching_service.is_trained:
+            return jsonify({
+                'status': 'error',
+                'message': 'AI model is not trained yet. Please run training first.',
+                'action_required': 'training',
+                'instructions': 'Run the training script: python ai_candidate_matching/train_ml_model.py'
+            }), 503
+        
+        # Find best candidates using the ML service
+        results = ai_matching_service.find_best_candidates(
+            job_description=job_description,
+            job_title=job_title,
+            required_experience=min_experience,
+            location=location,
+            top_k=top_k
+        )
+        
+        # Format response
+        response = {
+            'status': 'success',
+            'total_candidates': len(ai_matching_service.candidates_cache) if ai_matching_service.candidates_cache else 0,
+            'results': []
+        }
+        
+        for result in results:
+            candidate = result['candidate']
+            response['results'].append({
+                'id': candidate.get('id'),
+                'name': f"{candidate.get('first_name', '')} {candidate.get('last_name', '')}".strip(),
+                'title': candidate.get('title', ''),
+                'experience_years': candidate.get('years_of_experience', 0),
+                'email': candidate.get('email', ''),
+                'location': candidate.get('address', ''),
+                'skills': [skill.get('name', '') for skill in candidate.get('skills', [])[:10]],
+                'compatibility_score': round(result['compatibility_score'], 3),
+                'confidence': round(result['confidence'], 3),
+                'interpretation': result.get('explanation', {}).get('score_interpretation', 'Good match'),
+                'key_factors': result.get('explanation', {}).get('key_factors', []),
+                'recommendations': result.get('explanation', {}).get('recommendations', [])
+            })
+        
+        return jsonify(response)
+        
+    except Exception as e:
+        logger.error(f"Error in AI search: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/api/search/candidates', methods=['POST'])
 @token_required

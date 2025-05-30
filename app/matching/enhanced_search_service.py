@@ -250,21 +250,42 @@ class EnhancedSearchService:
             for req in parsed_job.required_skills + parsed_job.preferred_skills:
                 all_skills.append(req.skill)
             
-            # Use existing search service
-            search_params = {
-                'skills': all_skills[:10],  # Limit to top 10 skills
-                'location': parsed_job.location if parsed_job.location != "Unknown" else None,
-                'experience_years': parsed_job.experience_requirements.get('minimum_years'),
-                'limit': 200  # Get larger pool for scoring
-            }
+            # Import SearchQuery with absolute import to avoid circular imports
+            from search.schemas import SearchQuery, SkillFilter
             
-            # Remove None values
-            search_params = {k: v for k, v in search_params.items() if v is not None}
+            # Create SearchQuery object with proper structure
+            skill_filters = []
+            for skill in all_skills[:10]:  # Limit to top 10 skills
+                skill_filters.append(SkillFilter(skill_name=skill))
+            
+            search_query = SearchQuery(
+                keywords=" ".join(all_skills[:5]),  # Use top 5 skills as keywords
+                skills=skill_filters,
+                page_size=200,  # Get larger pool for scoring
+                sort_by='match_score',
+                sort_order='desc'
+            )
             
             # Call existing search
-            results = self.base_search_service.search_candidates(**search_params)
+            results = self.base_search_service.search_candidates(search_query)
             
-            return results.get('candidates', [])
+            # Convert CandidateResponse objects to dictionaries
+            candidates = []
+            for candidate in results.candidates:
+                candidate_dict = {
+                    'id': candidate.id,
+                    'first_name': candidate.first_name,
+                    'last_name': candidate.last_name,
+                    'email': candidate.email,
+                    'phone_number': candidate.phone_number,
+                    'match_score': candidate.match_score,
+                    'skills': candidate.skills,
+                    'experience': candidate.experience,
+                    'education': candidate.education
+                }
+                candidates.append(candidate_dict)
+            
+            return candidates
             
         except Exception as e:
             logger.error(f"Failed to get initial candidate pool: {str(e)}")
@@ -459,6 +480,19 @@ class EnhancedSearchService:
         
         return learning_path
     
+    def _candidate_has_skill(self, candidate: Dict[str, Any], skill: str) -> bool:
+        """Check if a candidate has a specific skill."""
+        
+        candidate_skills = candidate.get('skills', [])
+        skill_lower = skill.lower()
+        
+        for candidate_skill in candidate_skills:
+            skill_name = candidate_skill.get('name', '').lower()
+            if skill_lower in skill_name or skill_name in skill_lower:
+                return True
+        
+        return False
+    
     def _analyze_skill_market_demand(self, skill: str, location: str) -> Dict[str, Any]:
         """Analyze market demand for a specific skill (simplified implementation)."""
         
@@ -526,30 +560,6 @@ class EnhancedSearchService:
             recommendations.append(f"Trending skills with growth potential: {', '.join(rising_skills[:3])}")
         
         return recommendations
-    
-    def _candidate_has_skill(self, candidate: Dict[str, Any], skill: str) -> bool:
-        """Check if candidate has a specific skill."""
-        
-        candidate_skills = []
-        
-        # Extract skills from various sources
-        if 'skills' in candidate:
-            candidate_skills.extend(candidate['skills'])
-        
-        if 'experiences' in candidate:
-            for exp in candidate['experiences']:
-                candidate_skills.extend(exp.get('technologies_used', []))
-        
-        # Check for semantic match
-        for candidate_skill in candidate_skills:
-            if isinstance(candidate_skill, dict):
-                candidate_skill = candidate_skill.get('name', '')
-            
-            similarity = self.semantic_matcher.calculate_similarity(skill, candidate_skill)
-            if similarity >= self.config.similarity_threshold:
-                return True
-        
-        return False
     
     def _estimate_learning_time(self, skill_info: Dict[str, Any]) -> str:
         """Estimate learning time for a skill."""

@@ -687,25 +687,35 @@ const EnhancedSearch: React.FC = () => {
               {parsedJob ? (
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <Alert severity="info" sx={{ mb: 2 }}>
-                      Parsing Confidence: {(parsedJob.confidence * 100).toFixed(0)}%
-                    </Alert>
-                  </Grid>
-
-                  <Grid item xs={12} md={6}>
-                    <Card>
+                    <Card sx={{ mb: 2 }}>
                       <CardContent>
                         <Typography variant="h6" gutterBottom>
-                          Required Skills
+                          Job Details
                         </Typography>
-                        {parsedJob.required_skills.map((skill, idx) => (
-                          <Chip
-                            key={idx}
-                            label={`${skill.skill} (${skill.proficiency_level})`}
-                            color={skill.importance === 'high' ? 'primary' : 'default'}
-                            sx={{ mr: 0.5, mb: 0.5 }}
-                          />
-                        ))}
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Title:</strong> {parsedJob.title}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Company:</strong> {parsedJob.company}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Location:</strong> {parsedJob.location || 'Not specified'}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Employment Type:</strong> {parsedJob.employment_type || 'Not specified'}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Remote Policy:</strong> {parsedJob.remote_policy || 'Not specified'}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Seniority Level:</strong> {parsedJob.seniority_level}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          <strong>Industry:</strong> {parsedJob.industry || 'Not specified'}
+                        </Typography>
+                        <Typography variant="body1">
+                          <strong>Department:</strong> {parsedJob.department || 'Not specified'}
+                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
@@ -714,16 +724,46 @@ const EnhancedSearch: React.FC = () => {
                     <Card>
                       <CardContent>
                         <Typography variant="h6" gutterBottom>
-                          Preferred Skills
+                          Required Skills ({parsedJob.required_skills?.length || 0})
                         </Typography>
-                        {parsedJob.preferred_skills.map((skill, idx) => (
-                          <Chip
-                            key={idx}
-                            label={`${skill.skill} (${skill.proficiency_level})`}
-                            variant="outlined"
-                            sx={{ mr: 0.5, mb: 0.5 }}
-                          />
-                        ))}
+                        {parsedJob.required_skills?.length > 0 ? (
+                          parsedJob.required_skills.map((skill: any, idx: number) => (
+                            <Chip
+                              key={idx}
+                              label={`${skill.skill}${skill.proficiency_level ? ` (${skill.proficiency_level})` : ''}${skill.years_experience ? ` - ${skill.years_experience}y` : ''}`}
+                              color="primary"
+                              sx={{ mr: 0.5, mb: 0.5 }}
+                            />
+                          ))
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No required skills identified
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          Preferred Skills ({parsedJob.preferred_skills?.length || 0})
+                        </Typography>
+                        {parsedJob.preferred_skills?.length > 0 ? (
+                          parsedJob.preferred_skills.map((skill: any, idx: number) => (
+                            <Chip
+                              key={idx}
+                              label={`${skill.skill}${skill.proficiency_level ? ` (${skill.proficiency_level})` : ''}${skill.years_experience ? ` - ${skill.years_experience}y` : ''}`}
+                              variant="outlined"
+                              sx={{ mr: 0.5, mb: 0.5 }}
+                            />
+                          ))
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No preferred skills identified
+                          </Typography>
+                        )}
                       </CardContent>
                     </Card>
                   </Grid>
@@ -734,12 +774,17 @@ const EnhancedSearch: React.FC = () => {
                         <Typography variant="h6" gutterBottom>
                           Experience Requirements
                         </Typography>
-                        <Typography variant="body2">
-                          Years: {parsedJob.experience_requirements.min_years}-{parsedJob.experience_requirements.max_years}
-                        </Typography>
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          Relevant Roles: {parsedJob.experience_requirements.relevant_roles.join(', ')}
-                        </Typography>
+                        {parsedJob.experience_requirements && Object.keys(parsedJob.experience_requirements).length > 0 ? (
+                          Object.entries(parsedJob.experience_requirements).map(([key, value]: [string, any]) => (
+                            <Typography key={key} variant="body2" sx={{ mb: 0.5 }}>
+                              <strong>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong> {String(value)}
+                            </Typography>
+                          ))
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No specific experience requirements
+                          </Typography>
+                        )}
                       </CardContent>
                     </Card>
                   </Grid>
@@ -748,16 +793,119 @@ const EnhancedSearch: React.FC = () => {
                     <Card>
                       <CardContent>
                         <Typography variant="h6" gutterBottom>
-                          Education & Culture
+                          Education Requirements
                         </Typography>
-                        <Typography variant="body2">
-                          Min Degree: {parsedJob.education_requirements.min_degree_level}
+                        {parsedJob.education_requirements && Object.keys(parsedJob.education_requirements).length > 0 ? (
+                          Object.entries(parsedJob.education_requirements).map(([key, value]: [string, any]) => (
+                            <Typography key={key} variant="body2" sx={{ mb: 0.5 }}>
+                              <strong>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong> {String(value)}
+                            </Typography>
+                          ))
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No specific education requirements
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+
+                  {parsedJob.responsibilities && parsedJob.responsibilities.length > 0 && (
+                    <Grid item xs={12}>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6" gutterBottom>
+                            Key Responsibilities
+                          </Typography>
+                          <Box component="ul" sx={{ pl: 2 }}>
+                            {parsedJob.responsibilities.map((responsibility: string, idx: number) => (
+                              <Typography key={idx} component="li" variant="body2" sx={{ mb: 0.5 }}>
+                                {responsibility}
+                              </Typography>
+                            ))}
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )}
+
+                  {parsedJob.benefits && parsedJob.benefits.length > 0 && (
+                    <Grid item xs={12}>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6" gutterBottom>
+                            Benefits & Perks
+                          </Typography>
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {parsedJob.benefits.map((benefit: string, idx: number) => (
+                              <Chip key={idx} label={benefit} variant="outlined" size="small" />
+                            ))}
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )}
+
+                  {parsedJob.salary_range && (
+                    <Grid item xs={12}>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6" gutterBottom>
+                            Salary Information
+                          </Typography>
+                          <Typography variant="body1">
+                            Range: {parsedJob.salary_range.currency || '$'}{parsedJob.salary_range.min?.toLocaleString()} - {parsedJob.salary_range.currency || '$'}{parsedJob.salary_range.max?.toLocaleString()}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )}
+
+                  {(parsedJob.company_description || parsedJob.team_info || (parsedJob.company_culture && parsedJob.company_culture.length > 0)) && (
+                    <Grid item xs={12}>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6" gutterBottom>
+                            Company & Culture
+                          </Typography>
+                          {parsedJob.company_description && (
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                              <strong>Company:</strong> {parsedJob.company_description}
+                            </Typography>
+                          )}
+                          {parsedJob.team_info && (
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                              <strong>Team:</strong> {parsedJob.team_info}
+                            </Typography>
+                          )}
+                          {parsedJob.company_culture && parsedJob.company_culture.length > 0 && (
+                            <Box>
+                              <Typography variant="body2" sx={{ mb: 1 }}>
+                                <strong>Culture Keywords:</strong>
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                {parsedJob.company_culture.map((keyword: string, idx: number) => (
+                                  <Chip key={idx} label={keyword} size="small" color="secondary" />
+                                ))}
+                              </Box>
+                            </Box>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )}
+
+                  <Grid item xs={12}>
+                    <Card sx={{ bgcolor: 'primary.50' }}>
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          Parsing Information
                         </Typography>
-                        <Typography variant="body2">
-                          Work Style: {parsedJob.company_culture.work_style}
+                        <Typography variant="body2" sx={{ mb: 0.5 }}>
+                          <strong>Confidence Score:</strong> {((parsedJob.confidence_score || 0) * 100).toFixed(1)}%
                         </Typography>
-                        <Typography variant="body2">
-                          Team Size: {parsedJob.company_culture.team_size}
+                        <Typography variant="body2" sx={{ mb: 0.5 }}>
+                          <strong>Parsing Method:</strong> {parsedJob.parsing_method || 'Unknown'}
                         </Typography>
                       </CardContent>
                     </Card>

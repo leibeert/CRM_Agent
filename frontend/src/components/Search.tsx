@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Paper,
@@ -63,8 +63,8 @@ interface Candidate {
   first_name: string;
   last_name: string;
   email: string;
-  skills: Array<{name: string, level: number, duration: number}>;
-  experience: Array<{title: string, company: string, description: string}>;
+  skills: Array<{name: string, level: number, duration?: number}>;
+  experience: Array<{title: string, company: string, description?: string}>;
   education: Array<{degree_name: string, school_id: number}>;
   match_score: number;
 }
@@ -73,40 +73,54 @@ interface SavedSearch {
   id: number;
   name: string;
   description: string;
-  filters: any;
+  filters: SearchQuery;
   created_at: string;
+}
+
+interface SearchResults {
+  candidates: Candidate[];
+  total: number;
+  page: number;
+  page_size: number;
 }
 
 const Search: React.FC = () => {
   // Basic search states
-  const [keywords, setKeywords] = useState('');
-  const [sortBy, setSortBy] = useState('match_score');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [keywords, setKeywords] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('match_score');
+  const [sortOrder, setSortOrder] = useState<string>('desc');
   
   // Skills search states
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [newSkillName, setNewSkillName] = useState('');
+  const [newSkillName, setNewSkillName] = useState<string>('');
   const [newSkillLevel, setNewSkillLevel] = useState<number>(1);
   const [newSkillDuration, setNewSkillDuration] = useState<number>(0);
   
   // Experience search states
-  const [experienceTitle, setExperienceTitle] = useState('');
-  const [experienceCompany, setExperienceCompany] = useState('');
+  const [experienceTitle, setExperienceTitle] = useState<string>('');
+  const [experienceCompany, setExperienceCompany] = useState<string>('');
   const [experienceMinYears, setExperienceMinYears] = useState<number>(0);
   
   // Education search states
-  const [educationDegree, setEducationDegree] = useState('');
-  const [educationField, setEducationField] = useState('');
-  const [educationSchool, setEducationSchool] = useState('');
+  const [educationDegree, setEducationDegree] = useState<string>('');
+  const [educationField, setEducationField] = useState<string>('');
+  const [educationSchool, setEducationSchool] = useState<string>('');
   
   // Results and UI states
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [total, setTotal] = useState<number>(0);
   
   const user = useAuthStore((state) => state.user);
+
+  // Load saved searches on component mount
+  useEffect(() => {
+    if (user?.id) {
+      loadSavedSearches();
+    }
+  }, [user?.id]);
 
   const buildSearchQuery = (): SearchQuery => {
     const query: SearchQuery = {
@@ -143,7 +157,7 @@ const Search: React.FC = () => {
     return query;
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (): Promise<void> => {
     try {
       setLoading(true);
       setError('');
@@ -151,10 +165,10 @@ const Search: React.FC = () => {
       const searchQuery = buildSearchQuery();
       console.log('Search Query:', searchQuery);
       
-      const results = await searchCandidates(searchQuery);
+      const results: SearchResults = await searchCandidates(searchQuery);
       setCandidates(results.candidates || []);
       setTotal(results.total || 0);
-    } catch (err) {
+    } catch (err: any) {
       setError('Failed to search candidates. Please try again.');
       console.error('Error searching candidates:', err);
     } finally {
@@ -162,7 +176,7 @@ const Search: React.FC = () => {
     }
   };
 
-  const handleAddSkill = () => {
+  const handleAddSkill = (): void => {
     if (newSkillName.trim() && !skills.some(s => s.skill_name === newSkillName.trim())) {
       const newSkill: Skill = {
         skill_name: newSkillName.trim(),
@@ -176,11 +190,11 @@ const Search: React.FC = () => {
     }
   };
 
-  const handleRemoveSkill = (skillToRemove: string) => {
+  const handleRemoveSkill = (skillToRemove: string): void => {
     setSkills(skills.filter(skill => skill.skill_name !== skillToRemove));
   };
 
-  const clearSearch = () => {
+  const clearSearch = (): void => {
     setKeywords('');
     setSkills([]);
     setExperienceTitle('');
@@ -193,26 +207,33 @@ const Search: React.FC = () => {
     setTotal(0);
   };
 
-  const handleSaveSearch = async () => {
+  const handleSaveSearch = async (): Promise<void> => {
     if (!keywords && skills.length === 0) {
       setError('Please enter search criteria before saving.');
+      return;
+    }
+
+    if (!user?.id) {
+      setError('Please log in to save searches.');
       return;
     }
 
     try {
       setLoading(true);
       setError('');
-      await saveSearch({
-        user_id: user!.id,
+      
+      const searchData = {
+        user_id: user.id,
         name: `Search ${new Date().toLocaleString()}`,
         description: `Keywords: ${keywords}, Skills: ${skills.map(s => s.skill_name).join(', ')}`,
-        filters: {
-          keywords,
-          skills: skills.map(s => ({ name: s.skill_name })),
-        }
-      });
+        filters: buildSearchQuery(),
+        sort_by: sortBy,
+        sort_order: sortOrder
+      };
+      
+      await saveSearch(searchData);
       await loadSavedSearches();
-    } catch (err) {
+    } catch (err: any) {
       setError('Failed to save search. Please try again.');
       console.error('Error saving search:', err);
     } finally {
@@ -220,27 +241,26 @@ const Search: React.FC = () => {
     }
   };
 
-  const loadSavedSearches = async () => {
+  const loadSavedSearches = async (): Promise<void> => {
+    if (!user?.id) return;
+    
     try {
-      setLoading(true);
-      setError('');
-      const searches = await getSavedSearches(user!.id);
+      const searches: SavedSearch[] = await getSavedSearches(user.id);
       setSavedSearches(searches);
-    } catch (err) {
-      setError('Failed to load saved searches. Please try again.');
+    } catch (err: any) {
       console.error('Error loading saved searches:', err);
-    } finally {
-      setLoading(false);
+      // Don't show error for loading saved searches as it's not critical
     }
   };
 
-  const handleDeleteSearch = async (searchId: number) => {
+  const handleDeleteSearch = async (searchId: number): Promise<void> => {
+    if (!user?.id) return;
+    
     try {
       setLoading(true);
-      setError('');
-      await deleteSavedSearch(searchId);
+      await deleteSavedSearch(searchId, user.id);
       await loadSavedSearches();
-    } catch (err) {
+    } catch (err: any) {
       setError('Failed to delete saved search. Please try again.');
       console.error('Error deleting saved search:', err);
     } finally {

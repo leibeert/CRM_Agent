@@ -5,6 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candidate Matcher</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .search-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            background-color: #007cba;
+            color: white;
+            border-bottom-color: #007cba;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .ai-form-group {
+            margin: 15px 0;
+        }
+        .ai-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .ai-form-group input, .ai-form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .candidate-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+        .score {
+            font-weight: bold;
+            color: #007cba;
+        }
+        .interpretation {
+            font-style: italic;
+            color: #666;
+        }
+        .skills-list {
+            margin: 5px 0;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: #e3f2fd;
+            padding: 2px 6px;
+            margin: 2px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,14 +80,65 @@
             <h2>Candidate Matcher</h2>
         </div>
         
-        <form id="match-form">
-            <div class="input-group">
-                <label for="job-description">Job Description:</label>
-                <textarea id="job-description" rows="6" placeholder="Enter job description here..."></textarea>
-            </div>
-            
-            <button type="submit" class="btn">Find Candidates</button>
-        </form>
+        <!-- Tab Navigation -->
+        <div class="search-tabs">
+            <button class="tab-button active" onclick="switchTab('basic')">Basic Search</button>
+            <button class="tab-button" onclick="switchTab('ai')">🤖 AI Search</button>
+        </div>
+
+        <!-- Basic Search Tab -->
+        <div id="basic-tab" class="tab-content active">
+            <form id="match-form">
+                <div class="input-group">
+                    <label for="job-description">Job Description:</label>
+                    <textarea id="job-description" rows="6" placeholder="Enter job description here..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Find Candidates</button>
+            </form>
+        </div>
+
+        <!-- AI Search Tab -->
+        <div id="ai-tab" class="tab-content">
+            <form id="ai-search-form">
+                <div class="ai-form-group">
+                    <label for="ai-job-title">Job Title:</label>
+                    <input type="text" id="ai-job-title" placeholder="e.g., Senior Python Developer">
+                </div>
+                
+                <div class="ai-form-group">
+                    <label for="ai-required-skills">Required Skills (comma-separated):</label>
+                    <input type="text" id="ai-required-skills" placeholder="e.g., Python, Django, PostgreSQL">
+                </div>
+                
+                <div class="ai-form-group">
+                    <label for="ai-preferred-skills">Preferred Skills (comma-separated):</label>
+                    <input type="text" id="ai-preferred-skills" placeholder="e.g., Docker, AWS, Redis">
+                </div>
+                
+                <div class="ai-form-group">
+                    <label for="ai-min-experience">Minimum Experience (years):</label>
+                    <input type="number" id="ai-min-experience" value="3" min="0">
+                </div>
+                
+                <div class="ai-form-group">
+                    <label for="ai-location">Location:</label>
+                    <input type="text" id="ai-location" placeholder="e.g., Paris, France">
+                </div>
+                
+                <div class="ai-form-group">
+                    <label for="ai-top-k">Number of Results:</label>
+                    <select id="ai-top-k">
+                        <option value="5">Top 5</option>
+                        <option value="10" selected>Top 10</option>
+                        <option value="15">Top 15</option>
+                        <option value="20">Top 20</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">🧠 AI Search</button>
+            </form>
+        </div>
 
         <div id="results">
             <!-- Results will be displayed here -->
@@ -28,6 +146,26 @@
     </div>
 
     <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Clear results when switching tabs
+            document.getElementById('results').innerHTML = '';
+        }
+
+        // Basic search functionality (existing)
         document.getElementById('match-form').addEventListener('submit', async function(event) {
             event.preventDefault();
 
@@ -78,6 +216,111 @@
                 resultsDiv.innerHTML = `<h2>Error:</h2><p>${error.message}</p>`;
             }
         });
+
+        // AI search functionality (new)
+        document.getElementById('ai-search-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const params = {
+                job_title: document.getElementById('ai-job-title').value,
+                required_skills: document.getElementById('ai-required-skills').value,
+                preferred_skills: document.getElementById('ai-preferred-skills').value,
+                min_experience: parseInt(document.getElementById('ai-min-experience').value) || 0,
+                location: document.getElementById('ai-location').value,
+                top_k: parseInt(document.getElementById('ai-top-k').value) || 10
+            };
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>🤖 AI Search Results:</h2><p>Analyzing candidates with AI...</p>';
+
+            try {
+                const response = await fetch('/api/ai-search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    displayAIResults(data);
+                } else {
+                    let errorHtml = `<h2>Error:</h2><p>${data.message || 'Unknown error occurred'}</p>`;
+                    
+                    // Special handling for training required
+                    if (data.action_required === 'training') {
+                        errorHtml += `
+                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                            <h3>🤖 AI Model Training Required</h3>
+                            <p>The AI model hasn't been trained yet. You need to train it first with your candidate data.</p>
+                            <p><strong>Instructions:</strong></p>
+                            <ol>
+                                <li>Open a terminal in your project directory</li>
+                                <li>Run: <code>cd app/ai_candidate_matching</code></li>
+                                <li>Run: <code>python train_model_now.py</code></li>
+                                <li>Wait for training to complete</li>
+                                <li>Restart your Flask app</li>
+                                <li>Try AI search again</li>
+                            </ol>
+                            <p><em>Training usually takes 2-5 minutes and only needs to be done once.</em></p>
+                        </div>`;
+                    }
+                    
+                    resultsDiv.innerHTML = errorHtml;
+                }
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<h2>Error:</h2><p>${error.message}</p>`;
+            }
+        });
+
+        function displayAIResults(data) {
+            const resultsDiv = document.getElementById('results');
+            let html = '<h2>🤖 AI Search Results</h2>';
+            html += `<p>Found <strong>${data.results.length}</strong> candidates (out of ${data.total_candidates} total)</p>`;
+            
+            data.results.forEach((candidate, index) => {
+                html += `
+                <div class="candidate-card">
+                    <h3>${index + 1}. ${candidate.name}</h3>
+                    <p><strong>Title:</strong> ${candidate.title}</p>
+                    <p><strong>Experience:</strong> ${candidate.experience_years} years</p>
+                    <p><strong>Email:</strong> ${candidate.email}</p>
+                    <p><strong>Location:</strong> ${candidate.location}</p>
+                    
+                    <div class="skills-list">
+                        <strong>Skills:</strong><br>
+                        ${candidate.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    
+                    <p class="score"><strong>Compatibility Score:</strong> ${candidate.compatibility_score}</p>
+                    <p class="score"><strong>Confidence:</strong> ${candidate.confidence || 'N/A'}</p>
+                    <p class="interpretation">${candidate.interpretation}</p>
+                    
+                    ${candidate.key_factors && candidate.key_factors.length > 0 ? `
+                        <details>
+                            <summary>Key Matching Factors</summary>
+                            <ul>
+                                ${candidate.key_factors.map(factor => `<li>${factor}</li>`).join('')}
+                            </ul>
+                        </details>
+                    ` : ''}
+                    
+                    ${candidate.recommendations && candidate.recommendations.length > 0 ? `
+                        <details>
+                            <summary>Recommendations</summary>
+                            <ul>
+                                ${candidate.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                            </ul>
+                        </details>
+                    ` : ''}
+                </div>`;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
     </script>
 </body>
 </html> 

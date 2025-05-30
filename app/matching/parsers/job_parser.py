@@ -158,7 +158,7 @@ class IntelligentJobParser:
             response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are an expert HR analyst specializing in parsing job descriptions."},
+                    {"role": "system", "content": "You are an expert HR analyst specializing in parsing job descriptions. Always return valid JSON."},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.1,
@@ -166,7 +166,30 @@ class IntelligentJobParser:
             )
             
             result_text = response.choices[0].message.content
-            parsed_data = json.loads(result_text)
+            logger.info(f"OpenAI response: {result_text[:200]}...")  # Log first 200 chars for debugging
+            
+            # Clean the response text
+            result_text = result_text.strip()
+            
+            # Remove markdown code blocks if present
+            if result_text.startswith('```json'):
+                result_text = result_text[7:]  # Remove ```json
+            if result_text.startswith('```'):
+                result_text = result_text[3:]   # Remove ```
+            if result_text.endswith('```'):
+                result_text = result_text[:-3]  # Remove ending ```
+            
+            result_text = result_text.strip()
+            
+            # Try to parse JSON
+            try:
+                parsed_data = json.loads(result_text)
+            except json.JSONDecodeError as json_error:
+                logger.error(f"JSON parsing failed: {json_error}")
+                logger.error(f"Raw response: {result_text}")
+                # Try to fix common JSON issues
+                result_text = self._fix_json_issues(result_text)
+                parsed_data = json.loads(result_text)
             
             # Convert to our data structure
             result = self._convert_ai_result(parsed_data, job_title, company_name)
@@ -177,7 +200,24 @@ class IntelligentJobParser:
             
         except Exception as e:
             logger.error(f"AI parsing failed: {str(e)}")
-            raise
+            # Fallback to rule-based parsing
+            logger.info("Falling back to rule-based parsing...")
+            return self._parse_with_rules(job_text, job_title, company_name)
+    
+    def _fix_json_issues(self, json_text: str) -> str:
+        """Try to fix common JSON formatting issues."""
+        
+        # Remove any leading/trailing whitespace
+        json_text = json_text.strip()
+        
+        # Fix single quotes to double quotes
+        json_text = json_text.replace("'", '"')
+        
+        # Fix trailing commas (basic attempt)
+        json_text = re.sub(r',\s*}', '}', json_text)
+        json_text = re.sub(r',\s*]', ']', json_text)
+        
+        return json_text
     
     def _parse_with_rules(self, job_text: str, job_title: str, company_name: str) -> ParsedJobDescription:
         """Parse job description using rule-based approach."""
@@ -245,8 +285,11 @@ class IntelligentJobParser:
         """Create a prompt for AI-powered parsing."""
         
         return f"""
-Parse the following job description and extract structured information. Return the result as a JSON object with the following structure:
+Parse the following job description and extract structured information. 
 
+IMPORTANT: Return ONLY a valid JSON object, no additional text or markdown formatting.
+
+Expected JSON structure:
 {{
     "title": "job title",
     "company": "company name",
@@ -276,17 +319,22 @@ Parse the following job description and extract structured information. Return t
     "team_info": "team information",
     "company_culture": ["culture keyword 1", "culture keyword 2"],
     "seniority_level": "entry|mid|senior|lead|executive",
-    "industry": "industry name",
-    "department": "department name"
+    "industry": "technology",
+    "department": "engineering"
 }}
+
+Rules:
+- Use double quotes for all strings
+- No trailing commas
+- If information is missing, use null or empty arrays/objects
+- For numbers, use integers without quotes
+- Return only the JSON object, no explanations
 
 Job Title: {job_title}
 Company: {company_name}
 
 Job Description:
 {job_text}
-
-Extract as much information as possible. If information is not available, use appropriate defaults or empty values.
 """
     
     def _clean_text(self, text: str) -> str:

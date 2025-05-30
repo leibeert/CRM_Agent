@@ -160,8 +160,10 @@ export const getSavedSearches = async (userId: number) => {
   return response.data;
 };
 
-export const deleteSavedSearch = async (searchId: number) => {
-  const response = await api.delete(`/api/search/saved/${searchId}`);
+export const deleteSavedSearch = async (searchId: number, userId: number) => {
+  const response = await api.delete(`/api/search/saved/${searchId}`, {
+    data: { user_id: userId }
+  });
   return response.data;
 };
 
